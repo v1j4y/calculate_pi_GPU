@@ -81,7 +81,7 @@ set_source_files_properties(main.cpp PROPERTIES LANGUAGE CUDA)
 SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 # Create shared library
-ADD_LIBRARY(calcpigpu SHARED ${calcpigpu_SOURCES})
+#ADD_LIBRARY(calcpigpu SHARED ${calcpigpu_SOURCES})
 
 message(STATUS "USE_CUDA: ${USE_CUDA}")
 if(USE_CUDA)
