@@ -32,7 +32,7 @@ LIST(REMOVE_DUPLICATES calcpigpu_INCLUDE_DIRS)
 #FIND_PATH(BLAS_INCLUDE_DIRS cblas.h
 #  /opt/OpenBLAS-develop/include)
 
-#INCLUDE_DIRECTORIES(${calcpigpu_INCLUDE_DIRS} /opt/OpenBLAS-develop/include)
+INCLUDE_DIRECTORIES(${calcpigpu_INCLUDE_DIRS} ${CUDA_INCLUDE_DIRS})
 
 # OpenMP
 FIND_PACKAGE(OpenMP)
