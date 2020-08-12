@@ -6,8 +6,6 @@ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fopenmp -Wall -Wextra -pedantic")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -Wall -Wextra -pedantic")
 SET(CMAKE_SHARED_LINKER_FLAGS "-shared")
 
-#link_libraries("-lhdf5 /opt/OpenBLAS-develop/lib/libopenblas.a")
-link_libraries("/opt/OpenBLAS-develop/lib/libopenblas.a")
 
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -27,13 +25,13 @@ ForEach (_headerFile ${calcpigpu_HEADERS})
 ENDForEach()
 LIST(REMOVE_DUPLICATES calcpigpu_INCLUDE_DIRS)
 
-# OpenBLAS
-set(BLAS_DIR /opt/OpenBLAS-develop/)
-FIND_PACKAGE(OpenBLAS REQUIRED)
-FIND_PATH(BLAS_INCLUDE_DIRS cblas.h
-  /opt/OpenBLAS-develop/include)
+## OpenBLAS
+#set(BLAS_DIR /opt/OpenBLAS-develop/)
+#FIND_PACKAGE(OpenBLAS REQUIRED)
+#FIND_PATH(BLAS_INCLUDE_DIRS cblas.h
+#  /opt/OpenBLAS-develop/include)
 
-INCLUDE_DIRECTORIES(${calcpigpu_INCLUDE_DIRS} /opt/OpenBLAS-develop/include)
+#INCLUDE_DIRECTORIES(${calcpigpu_INCLUDE_DIRS} /opt/OpenBLAS-develop/include)
 
 # OpenMP
 FIND_PACKAGE(OpenMP)
