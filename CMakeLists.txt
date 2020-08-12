@@ -41,6 +41,8 @@ IF (OPENMP_FOUND)
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 ENDIF()
 
+set_source_files_properties(main.cpp PROPERTIES LANGUAGE CUDA)
+
 
 # copy library
 SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
