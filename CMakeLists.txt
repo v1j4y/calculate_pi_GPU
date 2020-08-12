@@ -11,7 +11,7 @@ SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 SET(CMAKE_BUILD_TYPE Debug)
 
-find_package(NVIDIA REQUIRED)
+find_package(CUDA REQUIRED)
 find_package(PythonInterp REQUIRED)
 
 # Find source files
