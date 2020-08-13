@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fstream>
+#include <sys/time.h>
 #include <cuda.h>
 #include <curand.h>
 
