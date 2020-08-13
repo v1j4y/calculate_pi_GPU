@@ -90,7 +90,7 @@ int main(void)
     printf("Serial Sum=%5.1f\n",sum);
 
 
-    // Parallel reduction
+    // Parallel reduction level 0
     int NBlocks           = WIDTH*WIDTH/NBdim;
     int NThreadsPerBlock  = NBdim;
     dim3 dimBlock(NThreadsPerBlock);
@@ -123,9 +123,40 @@ int main(void)
     }
     printf("parallel Sum=%5.1f\n",sum);
 
-    // Vector of measurements
-//  Vector PiValues = AllocateVector(NMC);
-    
+    // Parallel reduction level 1
+    int WIDTH_2 = WIDTH/2;
+    NBlocks           = WIDTH_2*WIDTH_2/NBdim;
+    NThreadsPerBlock  = NBdim;
+    dimBlock(NThreadsPerBlock);
+    dimGrid(NBlocks);
+
+    // Create device vectors
+    Vinp_d     = AllocateDeviceVector(Vout);
+    // Copy data to device vector
+    CopyToDeviceVector(Vinp_d, Vout);
+
+    Vout     = AllocateZeroVector(NBlocks);
+    Vout_d     = AllocateDeviceVector(Vout);
+
+    // Copy vectors to device
+
+	  printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
+
+    vectorReduction0<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
+//  VectorMulKernel<<<dimGrid, dimBlock>>>(Vinp_d, Vinp_d, Vout_d);
+
+    // Copy data from device
+    CopyFromDeviceVector(Vout, Vout_d);
+
+	  printf("Output Vector\n");
+	  PrintVector(Vout.elements,Vout.length);
+    sum = 0;
+    for(unsigned int i=0; i < Vout.length; i++)
+    {
+        sum += Vout.elements[i];
+    }
+    printf("parallel Sum=%5.1f\n",sum);
+
 
     // Free matrices
     FreeMatrix(M);
