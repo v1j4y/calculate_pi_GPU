@@ -66,7 +66,7 @@ void CopyToDeviceVector(Vector Vdevice, const Vector Vhost)
 {
     int size = Vhost.length * sizeof(float);
     cudaMemcpy(Vdevice.elements, Vhost.elements, size, 
-	  cudaMemcpyHostToDevice);
+    cudaMemcpyHostToDevice);
 }
 
 // Copy a device vector to a host vector.
@@ -74,7 +74,7 @@ void CopyFromDeviceVector(Vector Vhost, const Vector Vdevice)
 {
     int size = Vdevice.length * sizeof(float);
     cudaMemcpy(Vhost.elements, Vdevice.elements, size, 
-	  cudaMemcpyDeviceToHost);
+    cudaMemcpyDeviceToHost);
 }
 
 // Vector multiplication on the device
@@ -143,10 +143,10 @@ Vector AllocateVector(int length)
 
 void PrintVector(float* ma, int X)
 {
-	int i;
-	for (i=0;i<X;i++) {
-			printf("%4f ",ma[i]);
-	}
+  int i;
+  for (i=0;i<X;i++) {
+      printf("%4f ",ma[i]);
+  }
   printf("\n");
 }
 
@@ -217,7 +217,7 @@ void CopyToDeviceMatrix(Matrix Mdevice, const Matrix Mhost)
 {
     int size = Mhost.width * Mhost.height * sizeof(float);
     cudaMemcpy(Mdevice.elements, Mhost.elements, size, 
-	cudaMemcpyHostToDevice);
+  cudaMemcpyHostToDevice);
 }
 
 // Copy a device matrix to a host matrix.
@@ -225,7 +225,7 @@ void CopyFromDeviceMatrix(Matrix Mhost, const Matrix Mdevice)
 {
     int size = Mdevice.width * Mdevice.height * sizeof(float);
     cudaMemcpy(Mhost.elements, Mdevice.elements, size, 
-	cudaMemcpyDeviceToHost);
+  cudaMemcpyDeviceToHost);
 }
 
 // Matrix multiplication on the device
@@ -279,13 +279,13 @@ Matrix AllocateMatrix(int height, int width)
 
 void PrintMatrix(float* ma, int X, int Y)
 {
-	int i,j;
-	for (j=0;j<Y;j++) {
-		for (i=0;i<X;i++) {
-			printf("%4f ",ma[i+j*X]);
-		}
-		printf("\n");
-	}
+  int i,j;
+  for (j=0;j<Y;j++) {
+    for (i=0;i<X;i++) {
+      printf("%4f ",ma[i+j*X]);
+    }
+    printf("\n");
+  }
   printf("\n");
 }
 

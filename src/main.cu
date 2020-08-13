@@ -56,7 +56,7 @@ __global__  void vectorReduction0(Vector g_idata, Vector g_odata){
 
 int main(void) 
 {
-	  int i,j;
+    int i,j;
     // Allocate and initialize the matrices
     Matrix  M     = AllocateMatrix(WIDTH, WIDTH);
     Vector  V     = AllocateVector(WIDTH * WIDTH);
@@ -76,7 +76,7 @@ int main(void)
     }
  
     PrintVector(V.elements,V.length);
-  	printf("\n");
+    printf("\n");
  
 //  // X and Y vectors
 //  Vector IdxI = AllocateVector(WIDTH);
@@ -121,7 +121,7 @@ int main(void)
 
     // Copy vectors to device
 
-	  printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
+    printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
 
     vectorReduction0<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
 //  VectorMulKernel<<<dimGrid, dimBlock>>>(Vinp_d, Vinp_d, Vout_d);
@@ -129,8 +129,8 @@ int main(void)
     // Copy data from device
     CopyFromDeviceVector(Vout, Vout_d);
 
-	  printf("Output Vector\n");
-	  PrintVector(Vout.elements,Vout.length);
+    printf("Output Vector\n");
+    PrintVector(Vout.elements,Vout.length);
     sum = 0;
     for(unsigned int i=0; i < Vout.length; i++)
     {
@@ -155,7 +155,7 @@ int main(void)
 
     // Copy vectors to device
 
-	  printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
+    printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
 
     vectorReduction0<<<dimGrid1, dimBlock1, NBlocks>>>(Vinp_d, Vout_d);
 //  VectorMulKernel<<<dimGrid, dimBlock>>>(Vinp_d, Vinp_d, Vout_d);
@@ -163,8 +163,8 @@ int main(void)
     // Copy data from device
     CopyFromDeviceVector(Vout, Vout_d);
 
-	  printf("Output Vector\n");
-	  PrintVector(Vout.elements,Vout.length);
+    printf("Output Vector\n");
+    PrintVector(Vout.elements,Vout.length);
     sum = 0;
     for(unsigned int i=0; i < Vout.length; i++)
     {
