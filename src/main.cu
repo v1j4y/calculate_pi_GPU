@@ -19,7 +19,7 @@
 // reduction kernel level 0
 //
 // ----------------------------------------------------
-__global__  void vectorReduction0(int *g_idata, int *g_odata){
+__global__  void vectorReduction0(Vector g_idata, Vector g_odata){
 
     // Size automatically determined using third execution control parameter
     // when kernel is invoked.
@@ -31,7 +31,7 @@ __global__  void vectorReduction0(int *g_idata, int *g_odata){
     // This instruction copies data from 
     // global to shared memory of each block.
     // Only threads of a block can access this shared memory.
-    sdata[tid]  = g_idata[index];
+    sdata[tid]  = g_idata.elements[index];
 
     // Synchronize threads, basically a barrier.
     __syncthreads();
@@ -51,7 +51,7 @@ __global__  void vectorReduction0(int *g_idata, int *g_odata){
     __syncthreads();
 
     // Write back result to global memory
-    if(tid == 0) g_odata[blockIdx.x] = sdata[0];
+    if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
 }
 
 int main(void) 
@@ -93,7 +93,7 @@ int main(void)
     Vector Vout     = AllocateVector(WIDTH * WIDTH/NBlocks);
 
     // Parallel reduction
-    vectorReduction0<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(V.elements,Vout.elements);
+    vectorReduction0<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(V,Vout);
 
 	  printf("Output Vector\n");
 	  PrintVector(Vout.elements,Vout.length);
