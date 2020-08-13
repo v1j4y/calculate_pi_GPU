@@ -49,7 +49,7 @@ endif()
 
 # Find source files
 
-FILE(GLOB_RECURSE calcpigpu_SOURCES "src/*.cpp" "src/*.cu")
+FILE(GLOB_RECURSE calcpigpu_SOURCES "src/*.cpp" "src/*.cu" "lib/*.cpp")
 FILE(GLOB_RECURSE calcpigpu_HEADERS "lib/*.h")
 
 SET(calcpigpu_INCLUDE_DIRS "")
