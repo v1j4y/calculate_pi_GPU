@@ -116,6 +116,12 @@ int main(void)
 
 	  printf("Output Vector\n");
 	  PrintVector(Vout.elements,Vout.length);
+    float sum = 0;
+    for(unsigned int i=0; i < Vout.length; i++)
+    {
+        sum += Vout.elements[i];
+    }
+    printf("parallel Sum=%5.1f\n",sum);
 
     // Vector of measurements
 //  Vector PiValues = AllocateVector(NMC);
