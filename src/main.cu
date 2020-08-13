@@ -127,8 +127,8 @@ int main(void)
     int WIDTH_2 = WIDTH/2;
     NBlocks           = WIDTH_2*WIDTH_2/NBdim;
     NThreadsPerBlock  = NBdim;
-    dimBlock(NThreadsPerBlock);
-    dimGrid(NBlocks);
+    dim3 dimBlock1(NThreadsPerBlock);
+    dim3 dimGrid1(NBlocks);
 
     // Create device vectors
     Vinp_d     = AllocateDeviceVector(Vout);
@@ -142,7 +142,7 @@ int main(void)
 
 	  printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
 
-    vectorReduction0<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
+    vectorReduction0<<<dimGrid1, dimBlock1, NBlocks>>>(Vinp_d, Vout_d);
 //  VectorMulKernel<<<dimGrid, dimBlock>>>(Vinp_d, Vinp_d, Vout_d);
 
     // Copy data from device
