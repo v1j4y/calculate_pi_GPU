@@ -103,8 +103,4 @@ void PrintMatrix(float* ma, int X, int Y);
 // Serialize Matrix
 void SerializeMatrix(Matrix M, const char *filename);
 
-// Do paralle reduction
-int parallel_reduction(void);
-
-
 #endif // LINEAR_ALGEBRA_HELPERS_H
