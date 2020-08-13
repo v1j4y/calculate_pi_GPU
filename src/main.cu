@@ -25,8 +25,8 @@ __global__  void vectorReduction0(Vector &g_idata, Vector &g_odata){
 //   // when kernel is invoked.
 //   extern __shared__ float sdata[];
 //
-//   int tid     = threadIdx.x;
-//   int index   = blockIdx.x * blockDim.x + threadIdx.x;
+     int tid     = threadIdx.x;
+     int index   = blockIdx.x * blockDim.x + threadIdx.x;
 //
 //   // This instruction copies data from 
 //   // global to shared memory of each block.
@@ -52,7 +52,7 @@ __global__  void vectorReduction0(Vector &g_idata, Vector &g_odata){
 //
 //   // Write back result to global memory
 //   if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
-    g_odata.elements[blockIdx.x] = g_idata.elements[blockIdx.x];
+    g_odata.elements[index] = g_idata.elements[index];
 }
 
 int main(void) 
@@ -94,7 +94,7 @@ int main(void)
     // Parallel reduction
     int NBlocks           = WIDTH*WIDTH/NBdim;
     int NThreadsPerBlock  = NBdim;
-    Vector Vout     = AllocateZeroVector(WIDTH * WIDTH/NBlocks);
+    Vector Vout     = AllocateZeroVector(WIDTH * WIDTH);
     PrintVector(Vout.elements,Vout.length);
   	printf("\n");
 	  printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
