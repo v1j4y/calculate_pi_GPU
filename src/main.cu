@@ -19,40 +19,39 @@
 // reduction kernel level 0
 //
 // ----------------------------------------------------
-__global__  void vectorReduction0(float *g_idata, float *g_odata){
+__global__  void vectorReduction0(Vector g_idata, Vector g_odata){
 
-//   // Size automatically determined using third execution control parameter
-//   // when kernel is invoked.
-//   extern __shared__ float sdata[];
-//
-     int tid     = threadIdx.x;
-     int index   = blockIdx.x * blockDim.x + threadIdx.x;
-//
-//   // This instruction copies data from 
-//   // global to shared memory of each block.
-//   // Only threads of a block can access this shared memory.
-//   sdata[tid]  = g_idata.elements[index];
-//
-//   // Synchronize threads, basically a barrier.
-//   __syncthreads();
-//   
-//   // Do the reduction in shared memory buffer
-//   // Thread Id:  0 - 1 - 2 - 3 - 4 - 5
-//   //             |  /    |  /    |  /
-//   //             0       2       4
-//   for(unsigned int s = 1; s < blockDim.x; s *= 2)
-//   {
-//       if(tid % (2*s) == 0)
-//       {
-//          sdata[tid] += sdata[tid + s];
-//       }
-//   }
-//
-//   __syncthreads();
-//
-//   // Write back result to global memory
-//   if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
-    g_odata[index] = g_idata[index];
+    // Size automatically determined using third execution control parameter
+    // when kernel is invoked.
+    extern __shared__ float sdata[];
+
+    int tid     = threadIdx.x;
+    int index   = blockIdx.x * blockDim.x + threadIdx.x;
+
+    // This instruction copies data from 
+    // global to shared memory of each block.
+    // Only threads of a block can access this shared memory.
+    sdata[tid]  = g_idata.elements[index];
+
+    // Synchronize threads, basically a barrier.
+    __syncthreads();
+    
+    // Do the reduction in shared memory buffer
+    // Thread Id:  0 - 1 - 2 - 3 - 4 - 5
+    //             |  /    |  /    |  /
+    //             0       2       4
+    for(unsigned int s = 1; s < blockDim.x; s *= 2)
+    {
+        if(tid % (2*s) == 0)
+        {
+           sdata[tid] += sdata[tid + s];
+        }
+    }
+
+    __syncthreads();
+
+    // Write back result to global memory
+    if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
 }
 
 int main(void) 
@@ -72,8 +71,8 @@ int main(void)
         }
     }
  
-//  PrintVector(V.elements,V.length);
-//	printf("\n");
+    PrintVector(V.elements,V.length);
+  	printf("\n");
  
 //  // X and Y vectors
 //  Vector IdxI = AllocateVector(WIDTH);
@@ -94,12 +93,18 @@ int main(void)
     // Parallel reduction
     int NBlocks           = WIDTH*WIDTH/NBdim;
     int NThreadsPerBlock  = NBdim;
-    Vector Vout     = AllocateZeroVector(WIDTH * WIDTH);
-    PrintVector(Vout.elements,Vout.length);
-  	printf("\n");
+    Vector Vout     = AllocateZeroVector(WIDTH * WIDTH/NBlocks);
+    Vector Vinp_d     = AllocateDeviceVector(V);
+    Vector Vout_d     = AllocateDeviceVector(Vout);
+
+    // Copy vectors to device
+
 	  printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
 
-    vectorReduction0<<<NBdim*NThreadsPerBlock,1>>>(V.elements,Vout.elements);
+    vectorReduction0<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(Vinp_d, Vout_d);
+
+    // Copy data from device
+    CopyFromDeviceVector(Vout, Vout_d);
 
 	  printf("Output Vector\n");
 	  PrintVector(Vout.elements,Vout.length);
