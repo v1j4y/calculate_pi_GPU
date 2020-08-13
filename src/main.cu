@@ -93,7 +93,7 @@ int main(void)
     Vector Vout     = AllocateVector(WIDTH * WIDTH/NBlocks);
 
     // Parallel reduction
-    vectorReduction0<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(V);
+    vectorReduction0<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(V.elements,Vout.elements);
 
 	  printf("Output Vector\n");
 	  PrintVector(Vout.elements,Vout.length);
