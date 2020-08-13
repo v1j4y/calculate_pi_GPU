@@ -19,7 +19,7 @@
 // reduction kernel level 0
 //
 // ----------------------------------------------------
-__global__  void vectorReduction0(Vector g_idata, Vector g_odata){
+__global__  void vectorReduction_test(Vector g_idata, Vector g_odata){
 
     // Size automatically determined using third execution control parameter
     // when kernel is invoked.
