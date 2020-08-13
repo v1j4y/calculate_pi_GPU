@@ -28,7 +28,8 @@ if( ("${CMAKE_VERSION}" VERSION_EQUAL 3.8) OR
     # Modern CMake
     if(USE_CUDA)
         enable_language("CUDA")
-        add_executable(calcpigpu ${cpu_source_files} ${gpu_source_files})
+ #      add_executable(calcpigpu ${cpu_source_files} ${gpu_source_files})
+				cuda_add_executable(calcpigpu ${CMAKE_CURRENT_SOURCE_DIR}/main.cc ${gpu_source_files})
     else(USE_CUDA)
         add_executable(calcpigpu ${cpu_source_files})
     endif()
@@ -91,4 +92,3 @@ if(USE_CUDA)
     add_definitions(-DUSE_CUDA)
 endif()
 
-cuda_add_executable(calcpigpu ${CMAKE_CURRENT_SOURCE_DIR}/main.cc ${gpu_source_files})
