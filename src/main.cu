@@ -94,8 +94,13 @@ int main(void)
     int NBlocks           = WIDTH*WIDTH/NBdim;
     int NThreadsPerBlock  = NBdim;
     Vector Vout     = AllocateZeroVector(WIDTH * WIDTH/NBlocks);
+
+    // Create device vectors
     Vector Vinp_d     = AllocateDeviceVector(V);
     Vector Vout_d     = AllocateDeviceVector(Vout);
+
+    // Copy data to device vector
+    CopyToDeviceVector(Vout_d, Vout);
 
     // Copy vectors to device
 
