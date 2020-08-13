@@ -11,7 +11,7 @@ Calculate Pi using MCMC integration with CUDA.
 
 2. Fire up the notebook in the notebook directory on colab. 
 
-3. Navigate to build (mkdir -p)
+3. Navigate to build (`mkdir -p build;cd build`)
 
 4. `cmake ..` followed by `make`
 
