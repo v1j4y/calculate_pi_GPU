@@ -99,7 +99,7 @@ int main(void)
   	printf("\n");
 	  printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
 
-    vectorReduction0<<<NBdim,NThreadsPerBlock>>>(V,Vout);
+    vectorReduction0<<<NBdim*NThreadsPerBlock,1>>>(V,Vout);
 
 	  printf("Output Vector\n");
 	  PrintVector(Vout.elements,Vout.length);
