@@ -23,7 +23,7 @@ __global__  void vectorReduction0(Vector g_idata, Vector g_odata){
 
     // Size automatically determined using third execution control parameter
     // when kernel is invoked.
-    extern __shared__ int sdata[];
+    extern __shared__ float sdata[];
 
     int tid     = threadIdx.x;
     int index   = blockIdx.x * blockDim.x + threadIdx.x;
