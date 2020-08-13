@@ -105,6 +105,22 @@ void VectorMulOnDevice(const Vector M, const Vector N, Vector P)
     FreeDeviceVector(Pd);
 } 
 
+Vector AllocateZeroVector(int length)
+{
+    Vector M;
+    M.length = length;
+    int size = M.length;
+    M.elements = NULL;
+
+    M.elements = (float*) malloc(size*sizeof(float));
+
+    for(unsigned int i = 0; i < M.length; i++)
+    {
+        M.elements[i] = 0.0;
+    }
+    return M;
+}
+
 Vector AllocateVector(int length)
 {
     Vector M;

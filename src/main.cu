@@ -93,7 +93,7 @@ int main(void)
     // Parallel reduction
     int NBlocks           = WIDTH*WIDTH/NBdim;
     int NThreadsPerBlock  = NBdim;
-    Vector Vout     = AllocateVector(WIDTH * WIDTH/NBlocks);
+    Vector Vout     = AllocateZeroVector(WIDTH * WIDTH/NBlocks);
     PrintVector(Vout.elements,Vout.length);
   	printf("\n");
 	  printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
