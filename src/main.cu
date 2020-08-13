@@ -82,17 +82,19 @@ int main(void)
 //  SerializeMatrix(M, "DistanceMatrix.dat");
 
     // Serial Reduction of Vector elements
-    int sum = 0;
+    float sum = 0;
     for(unsigned int i=0; i < V.length; i++)
     {
         sum += V.elements[i];
     }
-    printf("Serial Sum=%d\n",sum);
+    printf("Serial Sum=%5.1f\n",sum);
+
+
+    // Parallel reduction
     int NBlocks           = WIDTH*WIDTH/NBdim;
     int NThreadsPerBlock  = NBdim;
     Vector Vout     = AllocateVector(WIDTH * WIDTH/NBlocks);
 
-    // Parallel reduction
     vectorReduction0<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(V,Vout);
 
 	  printf("Output Vector\n");
