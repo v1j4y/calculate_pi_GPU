@@ -178,7 +178,7 @@ int main(void)
     
     time = (1000000.0*(t2.tv_sec-t1.tv_sec) + t2.tv_usec-t1.tv_usec)/1000.0;
     
-    printf("Time serial sum:  %3.1f ms \n", time);
+    printf("Time parallel sum:  %3.1f ms \n", time);
 
     // Free matrices
     FreeMatrix(M);
