@@ -100,10 +100,10 @@ int main(void)
 
     // Create device vectors
     Vector Vinp_d     = AllocateDeviceVector(V);
-    Vector Vout_d     = AllocateDeviceVector(Vout);
+    Vector Vout_d     = AllocateDeviceVector(V);
 
     // Copy data to device vector
-    CopyToDeviceVector(Vout_d, Vout);
+    CopyToDeviceVector(Vinp_d, Vinp);
 
     // Copy vectors to device
 
