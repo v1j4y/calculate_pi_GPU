@@ -120,6 +120,10 @@ int main(void)
 
     // Free matrices
     FreeMatrix(M);
+    FreeMatrix(V);
+    FreeMatrix(Vout);
+    FreeMatrix(Vinp_d);
+    FreeMatrix(Vout_d);
 //  FreeVector(IdxI);
 //  FreeVector(IdxJ);
 //  FreeVector(PiValues);
