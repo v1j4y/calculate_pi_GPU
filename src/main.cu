@@ -49,6 +49,7 @@ __global__  void vectorReduction0(Vector g_idata, Vector g_odata){
     }
 
     __syncthreads();
+    printf("Sdata=%d\n",sdata[0]);
 
     // Write back result to global memory
     if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
