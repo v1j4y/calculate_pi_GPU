@@ -52,7 +52,7 @@ __global__  void vectorReduction0(Vector g_idata, Vector g_odata){
 //
 //   // Write back result to global memory
 //   if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
-    g_odata.elements[index] = g_idata.elements[index];
+    g_odata.elements[index] = 1.0;
 }
 
 int main(void) 
@@ -99,7 +99,7 @@ int main(void)
   	printf("\n");
 	  printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
 
-    vectorReduction0<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(V,Vout);
+    vectorReduction0<<<NBdim,NThreadsPerBlock>>>(V,Vout);
 
 	  printf("Output Vector\n");
 	  PrintVector(Vout.elements,Vout.length);
