@@ -92,8 +92,10 @@ int main(void)
 
 
     // Parallel reduction
-    int NBlocks           = WIDTH*WIDTH/NBdim;
-    int NThreadsPerBlock  = NBdim;
+    dim3 NBlocks           = WIDTH*WIDTH/NBdim;
+    dim3 NThreadsPerBlock  = NBdim;
+    dim3 dimBlock(WIDTH*WIDTH);
+    dim3 dimGrid(1)
     Vector Vout     = AllocateZeroVector(WIDTH * WIDTH/NBlocks);
 
     // Create device vectors
@@ -107,7 +109,8 @@ int main(void)
 
 	  printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
 
-    vectorReduction0<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(Vinp_d, Vout_d);
+//  vectorReduction0<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(Vinp_d, Vout_d);
+    VectorMulKernel<<<dimGrid, dimBlock>>>(Vinp_d, Vinp_d, Vout_d);
 
     // Copy data from device
     CopyFromDeviceVector(Vout, Vout_d);
