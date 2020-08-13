@@ -19,7 +19,7 @@
 // reduction kernel level 0
 //
 // ----------------------------------------------------
-__global__  void vectorReduction0(Vector &g_idata, Vector &g_odata){
+__global__  void vectorReduction0(float *g_idata, float *g_odata){
 
 //   // Size automatically determined using third execution control parameter
 //   // when kernel is invoked.
@@ -52,7 +52,7 @@ __global__  void vectorReduction0(Vector &g_idata, Vector &g_odata){
 //
 //   // Write back result to global memory
 //   if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
-    g_odata.elements[index] = 1.0;
+    g_odata[index] = g_idata[index];
 }
 
 int main(void) 
@@ -99,7 +99,7 @@ int main(void)
   	printf("\n");
 	  printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
 
-    vectorReduction0<<<NBdim*NThreadsPerBlock,1>>>(V,Vout);
+    vectorReduction0<<<NBdim*NThreadsPerBlock,1>>>(V.elements,Vout.elements);
 
 	  printf("Output Vector\n");
 	  PrintVector(Vout.elements,Vout.length);
