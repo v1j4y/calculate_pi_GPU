@@ -4,10 +4,10 @@
  * Date:    12-08-2020
  */
 
-#include "linear_algebra_helpers.h"
-
 int main(void) 
 {
+
+    int res = parallel_reduction();
 
     return 0;
 }
