@@ -21,37 +21,37 @@
 // ----------------------------------------------------
 __global__  void vectorReduction0(Vector &g_idata, Vector &g_odata){
 
-    // Size automatically determined using third execution control parameter
-    // when kernel is invoked.
-    extern __shared__ float sdata[];
-
-    int tid     = threadIdx.x;
-    int index   = blockIdx.x * blockDim.x + threadIdx.x;
-
-    // This instruction copies data from 
-    // global to shared memory of each block.
-    // Only threads of a block can access this shared memory.
-    sdata[tid]  = g_idata.elements[index];
-
-    // Synchronize threads, basically a barrier.
-    __syncthreads();
-    
-    // Do the reduction in shared memory buffer
-    // Thread Id:  0 - 1 - 2 - 3 - 4 - 5
-    //             |  /    |  /    |  /
-    //             0       2       4
-    for(unsigned int s = 1; s < blockDim.x; s *= 2)
-    {
-        if(tid % (2*s) == 0)
-        {
-           sdata[tid] += sdata[tid + s];
-        }
-    }
-
-    __syncthreads();
-
-    // Write back result to global memory
-    if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
+//   // Size automatically determined using third execution control parameter
+//   // when kernel is invoked.
+//   extern __shared__ float sdata[];
+//
+//   int tid     = threadIdx.x;
+//   int index   = blockIdx.x * blockDim.x + threadIdx.x;
+//
+//   // This instruction copies data from 
+//   // global to shared memory of each block.
+//   // Only threads of a block can access this shared memory.
+//   sdata[tid]  = g_idata.elements[index];
+//
+//   // Synchronize threads, basically a barrier.
+//   __syncthreads();
+//   
+//   // Do the reduction in shared memory buffer
+//   // Thread Id:  0 - 1 - 2 - 3 - 4 - 5
+//   //             |  /    |  /    |  /
+//   //             0       2       4
+//   for(unsigned int s = 1; s < blockDim.x; s *= 2)
+//   {
+//       if(tid % (2*s) == 0)
+//       {
+//          sdata[tid] += sdata[tid + s];
+//       }
+//   }
+//
+//   __syncthreads();
+//
+//   // Write back result to global memory
+//   if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
     g_odata.elements[blockIdx.x] = g_idata.elements[blockIdx.x];
 }
 
