@@ -1,11 +1,10 @@
 # calculate_pi_GPU
-===================
+---------------------
 
 Calculate Pi using MCMC integration with CUDA.
 
 
 ## Explore this work
----------------------
 
 
 1. Clone repository on google drive.
