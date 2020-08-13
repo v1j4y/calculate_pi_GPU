@@ -90,3 +90,5 @@ message(STATUS "USE_CUDA: ${USE_CUDA}")
 if(USE_CUDA)
     add_definitions(-DUSE_CUDA)
 endif()
+
+cuda_add_executable(calcpigpu ${CMAKE_CURRENT_SOURCE_DIR}/main.cc ${gpu_source_files})
