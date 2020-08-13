@@ -70,7 +70,7 @@ int main(void)
     {
         for(unsigned int j=0;j < M.width; j++)
         {
-            M.elements[i * M.width + j] = (WIDTH/2 - i)*(WIDTH/2 - i) + (WIDTH/2 - j)*(WIDTH/2 - j);
+//          M.elements[i * M.width + j] = (WIDTH/2 - i)*(WIDTH/2 - i) + (WIDTH/2 - j)*(WIDTH/2 - j);
             V.elements[i * M.width + j] = M.elements[i * M.width + j];
         }
     }

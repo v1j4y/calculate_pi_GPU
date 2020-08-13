@@ -61,6 +61,13 @@ void FreeVector(Vector V) {
     free(V.elements);
 }
 
+// Copy one vector to another
+void CopyVector(Vector Vout, Vector Vinp)
+{
+    int size = Vinp.length * sizeof(float);
+    memcpy(Vout.elements, Vinp.elements, size);
+}
+
 // Copy a host vector to a device vector.
 void CopyToDeviceVector(Vector Vdevice, const Vector Vhost)
 {
@@ -210,6 +217,13 @@ void FreeDeviceMatrix(Matrix M) {
 
 void FreeMatrix(Matrix M) {
     free(M.elements);
+}
+
+// Copy one matrix to another
+void CopyMatrix(Matrix Mout, Matrix Minp)
+{
+    int size = Minp.width * Minp.height * sizeof(float);
+    memcpy(Mout.elements, Minp.elements, size);
 }
 
 // Copy a host matrix to a device matrix.
