@@ -3,8 +3,8 @@
  * Email:   vijay.gopal.c@gmail.com
  * Date:    12-08-2020
  */
-#ifndef __LINEAR_ALGEBRA_HELPERS_H
-#define __LINEAR_ALGEBRA_HELPERS_H
+#ifndef LINEAR_ALGEBRA_HELPERS_H
+#define LINEAR_ALGEBRA_HELPERS_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -325,4 +325,4 @@ void SerializeMatrix(Matrix M, const char *filename)
 int parallel_reduction(void);
 
 
-#endif
+#endif // LINEAR_ALGEBRA_HELPERS_H
