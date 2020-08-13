@@ -4,7 +4,7 @@
  * Date:    12-08-2020
  */
 
-#include "../lib/linear_algebra_helpers.h"
+#include "linear_algebra_helpers.h"
 
 int main(void) 
 {

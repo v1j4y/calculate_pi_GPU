@@ -4,8 +4,6 @@
  * Date:    12-08-2020
  */
 
-#include "../lib/linear_algebra_helpers.h"
-
 // 2^13
 #define NMC  8192 
 #define LenVec 1024
