@@ -60,6 +60,10 @@ int main(void)
     // Allocate and initialize the matrices
     Matrix  M     = AllocateMatrix(WIDTH, WIDTH);
     Vector  V     = AllocateVector(WIDTH * WIDTH);
+
+    // Timing stuff
+    struct timeval t1, t2;
+    double time = 0.0;
  
     // Initialize Matrix of grid points
     for(unsigned int i = 0; i < M.height; i++)
@@ -83,12 +87,23 @@ int main(void)
 
     // Serial Reduction of Vector elements
     float sum = 0;
+    
+    gettimeofday(&t1, 0);
+
     for(unsigned int i=0; i < V.length; i++)
     {
         sum += V.elements[i];
     }
     printf("Serial Sum=%5.1f\n",sum);
+    
+    gettimeofday(&t2, 0);
+    
+    time = (1000000.0*(t2.tv_sec-t1.tv_sec) + t2.tv_usec-t1.tv_usec)/1000.0;
+    
+    printf("Time serial sum:  %3.1f ms \n", time);
 
+
+    gettimeofday(&t1, 0);
 
     // Parallel reduction level 0
     int NBlocks           = WIDTH*WIDTH/NBdim;
@@ -157,6 +172,13 @@ int main(void)
     }
     printf("parallel Sum=%5.1f\n",sum);
 
+    cudaThreadSynchronize();
+
+    gettimeofday(&t2, 0);
+    
+    time = (1000000.0*(t2.tv_sec-t1.tv_sec) + t2.tv_usec-t1.tv_usec)/1000.0;
+    
+    printf("Time serial sum:  %3.1f ms \n", time);
 
     // Free matrices
     FreeMatrix(M);
