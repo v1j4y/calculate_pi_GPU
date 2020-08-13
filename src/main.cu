@@ -103,7 +103,7 @@ int main(void)
     Vector Vout_d     = AllocateDeviceVector(V);
 
     // Copy data to device vector
-    CopyToDeviceVector(Vinp_d, Vinp);
+    CopyToDeviceVector(Vinp_d, V);
 
     // Copy vectors to device
 
