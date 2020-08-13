@@ -122,8 +122,8 @@ int main(void)
     FreeMatrix(M);
     FreeVector(V);
     FreeVector(Vout);
-    FreeVector(Vinp_d);
-    FreeVector(Vout_d);
+    FreeDeviceVector(Vinp_d);
+    FreeDeviceVector(Vout_d);
 //  FreeVector(IdxI);
 //  FreeVector(IdxJ);
 //  FreeVector(PiValues);
