@@ -52,6 +52,7 @@ __global__  void vectorReduction0(Vector &g_idata, Vector &g_odata){
 
     // Write back result to global memory
     if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
+    g_odata[blockIdx.x] = g_idata[blockIdx.x];
 }
 
 int main(void) 
