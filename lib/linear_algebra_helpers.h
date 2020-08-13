@@ -146,6 +146,7 @@ void PrintVector(float* ma, int X)
 	for (i=0;i<X;i++) {
 			printf("%4f ",ma[i]);
 	}
+  printf("\n");
 }
 
 // Serialize Vector
@@ -284,6 +285,7 @@ void PrintMatrix(float* ma, int X, int Y)
 		}
 		printf("\n");
 	}
+  printf("\n");
 }
 
 
