@@ -8,18 +8,58 @@
 
 // 2^13
 #define NMC  8192 
+#define LenVec 256
+#define NBdim  128
 
-// MCMC Kernel
-__global__  void my_add(int *a, int *b, int *c){
-    int index = blockIdx.x * blockDim.x + threadIdx.x;
-    c[index] = a[index] + b[index];
+// ----------------------------------------------------
+// Parallel reduction on GPU based on presentation
+// by Mark Harris, NVIDIA.
+// 
+// 
+// reduction kernel level 0
+//
+// ----------------------------------------------------
+__global__  void vectorReduction0(int *g_idata, int *g_0data){
+
+    // Size automatically determined using third execution control parameter
+    // when kernel is invoked.
+    extern __shared__ int sdata[];
+
+    int tid     = threadIdx.x;
+    int index   = blockIdx.x * blockDim.x + threadIdx.x;
+
+    // This instruction copies data from 
+    // global to shared memory of each block.
+    // Only threads of a block can access this shared memory.
+    sdata[tid]  = g_idata[index];
+
+    // Synchronize threads, basically a barrier.
+    __syncthreads();
+    
+    // Do the reduction in shared memory buffer
+    // Thread Id:  0 - 1 - 2 - 3 - 4 - 5
+    //             |  /    |  /    |  /
+    //             0       2       4
+    for(unsigned int s = 1; s < blockDim.x; s *= 2)
+    {
+        if(tid % (2*s) == 0)
+        {
+           stata[tid] += sdata[tid + s];
+        }
+    }
+
+    __syncthreads();
+
+    // Write back result to global memory
+    if(tid == 0) g_odata[blockIdx.x] = sdata[0];
 }
 
 int main(void) 
 {
 	  int i,j;
     // Allocate and initialize the matrices
-    Matrix  M  = AllocateMatrix(WIDTH, WIDTH);
+    Matrix  M     = AllocateMatrix(WIDTH, WIDTH);
+    Vector  V     = AllocateVector(WIDTH * WIDTH);
  
     // Initialize Matrix of grid points
     for(unsigned int i = 0; i < M.height; i++)
@@ -27,28 +67,46 @@ int main(void)
         for(unsigned int j=0;j < M.width; j++)
         {
             M.elements[i * M.width + j] = (WIDTH/2 - i)*(WIDTH/2 - i) + (WIDTH/2 - j)*(WIDTH/2 - j);
+            V.elements[i * M.width + j] = M.elements[i * M.width + j];
         }
     }
  
-	  PrintMatrix(M.elements,M.width,M.height);
+	  PrintVector(V.elements,V.length);
   	printf("\n");
  
-    // X and Y vectors
-    Vector IdxI = AllocateVector(WIDTH);
-    Vector IdxJ = AllocateVector(WIDTH);
+//  // X and Y vectors
+//  Vector IdxI = AllocateVector(WIDTH);
+//  Vector IdxJ = AllocateVector(WIDTH);
  
-    SerializeVector(IdxI, "random_numbers.dat");
-    SerializeMatrix(M, "DistanceMatrix.dat");
+//  SerializeVector(IdxI, "random_numbers.dat");
+//  SerializeMatrix(M, "DistanceMatrix.dat");
+
+    // Serial Reduction of Vector elements
+    int sum = 0;
+    for(unsigned int i=0; i < V.length; i++)
+    {
+        sum += V.elements[i];
+    }
+    printf("Serial Sum=%d\n",sum);
+    int NBlocks           = WIDTH*WIDTH/NBdim;
+    int NThreadsPerBlock  = NBdim;
+    Vector Vout     = AllocateVector(WIDTH * WIDTH/NBlocks);
+
+    // Parallel reduction
+    vectorReduction<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(V)
+
+	  printf("Output Vector\n");
+	  PrintVector(Vout.elements,Vout.length);
 
     // Vector of measurements
-    Vector PiValues = AllocateVector(NMC);
+//  Vector PiValues = AllocateVector(NMC);
     
 
     // Free matrices
     FreeMatrix(M);
-    FreeVector(IdxI);
-    FreeVector(IdxJ);
-    FreeVector(PiValues);
+//  FreeVector(IdxI);
+//  FreeVector(IdxJ);
+//  FreeVector(PiValues);
 
     return 0;
 }
