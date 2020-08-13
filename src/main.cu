@@ -4,6 +4,8 @@
  * Date:    12-08-2020
  */
 
+#include "parallel_reduction.h"
+
 int main(void) 
 {
 

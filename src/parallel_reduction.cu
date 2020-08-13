@@ -4,7 +4,7 @@
  * Date:    12-08-2020
  */
 
-#include "linear_algebra_helpers.h"
+#include "parallel_reduction.h"
 
 // 2^13
 #define NMC  8192 
