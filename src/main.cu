@@ -95,7 +95,7 @@ int main(void)
     dim3 NBlocks           = WIDTH*WIDTH/NBdim;
     dim3 NThreadsPerBlock  = NBdim;
     dim3 dimBlock(WIDTH*WIDTH);
-    dim3 dimGrid(1)
+    dim3 dimGrid(1);
     Vector Vout     = AllocateZeroVector(WIDTH * WIDTH/NBlocks);
 
     // Create device vectors
