@@ -52,7 +52,6 @@ __global__  void vectorReduction0(Vector g_idata, Vector g_odata){
 
     // Write back result to global memory
     if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
-    g_odata.elements[blockIdx.x] = g_idata.elements[blockIdx.x];
 }
 
 int main(void) 
@@ -94,13 +93,13 @@ int main(void)
     // Parallel reduction
     int NBlocks           = WIDTH*WIDTH/NBdim;
     int NThreadsPerBlock  = NBdim;
-    dim3 dimBlock(WIDTH*WIDTH);
-    dim3 dimGrid(1);
-    Vector Vout     = AllocateZeroVector(WIDTH * WIDTH/NBlocks);
+    dim3 dimBlock(NBlocks);
+    dim3 dimGrid(NThreadsPerBlock);
+    Vector Vout     = AllocateZeroVector(NBlocks);
 
     // Create device vectors
     Vector Vinp_d     = AllocateDeviceVector(V);
-    Vector Vout_d     = AllocateDeviceVector(V);
+    Vector Vout_d     = AllocateDeviceVector(Vout);
 
     // Copy data to device vector
     CopyToDeviceVector(Vinp_d, V);
@@ -109,8 +108,8 @@ int main(void)
 
 	  printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
 
-//  vectorReduction0<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(Vinp_d, Vout_d);
-    VectorMulKernel<<<dimGrid, dimBlock>>>(Vinp_d, Vinp_d, Vout_d);
+    vectorReduction0<<<dimGrid, dimBlock>>>(Vinp_d, Vout_d);
+//  VectorMulKernel<<<dimGrid, dimBlock>>>(Vinp_d, Vinp_d, Vout_d);
 
     // Copy data from device
     CopyFromDeviceVector(Vout, Vout_d);
