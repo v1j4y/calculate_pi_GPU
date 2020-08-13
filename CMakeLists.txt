@@ -20,7 +20,7 @@ message(STATUS "CMake version: ${CMAKE_VERSION}")
 
 option(USE_CUDA "Use CUDA" ON)
 
-file(GLOB cpu_source_files "${CMAKE_SOURCE_DIR}/lib/*.cpp")
+#file(GLOB cpu_source_files "${CMAKE_SOURCE_DIR}/lib/*.cpp")
 file(GLOB gpu_source_files "${CMAKE_SOURCE_DIR}/src/*.cu" "${CMAKE_SOURCE_DIR}/lib/*.cu")
 
 if( ("${CMAKE_VERSION}" VERSION_EQUAL 3.8) OR
