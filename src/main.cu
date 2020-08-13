@@ -49,7 +49,6 @@ __global__  void vectorReduction0(Vector g_idata, Vector g_odata){
     }
 
     __syncthreads();
-    printf("Sdata=%d\n",sdata[0]);
 
     // Write back result to global memory
     if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
@@ -72,8 +71,8 @@ int main(void)
         }
     }
  
-	  PrintVector(V.elements,V.length);
-  	printf("\n");
+//  PrintVector(V.elements,V.length);
+//	printf("\n");
  
 //  // X and Y vectors
 //  Vector IdxI = AllocateVector(WIDTH);
@@ -95,6 +94,8 @@ int main(void)
     int NBlocks           = WIDTH*WIDTH/NBdim;
     int NThreadsPerBlock  = NBdim;
     Vector Vout     = AllocateVector(WIDTH * WIDTH/NBlocks);
+    PrintVector(Vout.elements,Vout.length);
+  	printf("\n");
 	  printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
 
     vectorReduction0<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(V,Vout);
