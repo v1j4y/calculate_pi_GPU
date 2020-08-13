@@ -123,7 +123,7 @@ int testing(void)
 
     printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
 
-    vectorReduction0<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
+    vectorReduction_test<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
 //  VectorMulKernel<<<dimGrid, dimBlock>>>(Vinp_d, Vinp_d, Vout_d);
 
     // Copy data from device
