@@ -89,57 +89,51 @@ int main(void)
 
     gettimeofday(&t1, 0);
 
+    // Parallel reduction 
+    int NBlocks;
+    int NThreadsPerBlock;
+    Vector Vout;
+    Vector Vinp_d, Vout_d;
+    int dimVec  = LenVec;
+    int NBdim   = 128;
+    int dimOutVec = dimVec/NBdim;
+    Vout = AllocateZeroVector(dimOutVec);
+
+    for(unsigned int i = 1; i < 2; i *= 2)
     {
 
-        // Parallel reduction 
-        int NBlocks;
-        int NThreadsPerBlock;
-        Vector Vout;
-        Vector Vinp_d, Vout_d;
-        int dimVec  = LenVec;
-        int NBdim   = 128;
-        int dimOutVec = dimVec/NBdim;
-        Vout = AllocateZeroVector(dimOutVec);
+        NBlocks           = dimVec/NBdim;
+        NThreadsPerBlock  = NBdim;
 
-        for(unsigned int i = 1; i < 2; i *= 2)
-        {
+        dim3 dimBlock(NThreadsPerBlock);
+        dim3 dimGrid(NBlocks);
 
-            NBlocks           = dimVec/NBdim;
-            NThreadsPerBlock  = NBdim;
+        // Create device vectors
+        Vinp_d     = AllocateDeviceVector(V);
+        Vout_d     = AllocateDeviceVector(Vout);
 
-            dim3 dimBlock(NThreadsPerBlock);
-            dim3 dimGrid(NBlocks);
+        // Copy data to device vector
+        CopyToDeviceVector(Vinp_d, V);
 
-            dimVec = dimVec/2;
-            NBlocks = didmVec/NB
+        // Copy vectors to device
 
-            // Create device vectors
-            Vinp_d     = AllocateDeviceVector(V);
-            Vout_d     = AllocateDeviceVector(Vout);
+        printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
 
-            // Copy data to device vector
-            CopyToDeviceVector(Vinp_d, V);
+        vectorReduction0<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
 
-            // Copy vectors to device
-
-            printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
-
-            vectorReduction0<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
-
-        }
-
-        // Copy data from device
-        CopyFromDeviceVector(Vout, Vout_d);
-
-//      printf("Output Vector\n");
-//      PrintVector(Vout.elements,Vout.length);
-        sum = 0.0;
-        for(unsigned int i = 0; i < Vout.length; i++)
-          sum += Vout.elements[i];
-
-        // print results
-        printf("parallel Sum=%5.1f\n",sum);
     }
+
+    // Copy data from device
+    CopyFromDeviceVector(Vout, Vout_d);
+
+//  printf("Output Vector\n");
+//  PrintVector(Vout.elements,Vout.length);
+    sum = 0.0;
+    for(unsigned int i = 0; i < Vout.length; i++)
+      sum += Vout.elements[i];
+
+    // print results
+    printf("parallel Sum=%5.1f\n",sum);
 
     cudaThreadSynchronize();
     
@@ -151,7 +145,7 @@ int main(void)
 
 
     // Free matrices
-    FreeMatrix(M);
+//  FreeMatrix(M);
     FreeVector(V);
     FreeVector(Vout);
     FreeDeviceVector(Vinp_d);
