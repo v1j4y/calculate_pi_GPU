@@ -92,8 +92,8 @@ int main(void)
 
 
     // Parallel reduction
-    dim3 NBlocks           = WIDTH*WIDTH/NBdim;
-    dim3 NThreadsPerBlock  = NBdim;
+    int NBlocks           = WIDTH*WIDTH/NBdim;
+    int NThreadsPerBlock  = NBdim;
     dim3 dimBlock(WIDTH*WIDTH);
     dim3 dimGrid(1);
     Vector Vout     = AllocateZeroVector(WIDTH * WIDTH/NBlocks);
