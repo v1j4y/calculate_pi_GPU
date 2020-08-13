@@ -93,8 +93,8 @@ int main(void)
     // Parallel reduction
     int NBlocks           = WIDTH*WIDTH/NBdim;
     int NThreadsPerBlock  = NBdim;
-    dim3 dimBlock(NBlocks);
-    dim3 dimGrid(NThreadsPerBlock);
+    dim3 dimBlock(NThreadsPerBlock);
+    dim3 dimGrid(NBlocks);
     Vector Vout     = AllocateZeroVector(NBlocks);
 
     // Create device vectors
