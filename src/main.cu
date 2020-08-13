@@ -19,7 +19,7 @@
 // reduction kernel level 0
 //
 // ----------------------------------------------------
-__global__  void vectorReduction0(int *g_idata, int *g_0data){
+__global__  void vectorReduction0(int *g_idata, int *g_odata){
 
     // Size automatically determined using third execution control parameter
     // when kernel is invoked.
@@ -44,7 +44,7 @@ __global__  void vectorReduction0(int *g_idata, int *g_0data){
     {
         if(tid % (2*s) == 0)
         {
-           stata[tid] += sdata[tid + s];
+           sdata[tid] += sdata[tid + s];
         }
     }
 
@@ -93,7 +93,7 @@ int main(void)
     Vector Vout     = AllocateVector(WIDTH * WIDTH/NBlocks);
 
     // Parallel reduction
-    vectorReduction<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(V)
+    vectorReduction0<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(V);
 
 	  printf("Output Vector\n");
 	  PrintVector(Vout.elements,Vout.length);
