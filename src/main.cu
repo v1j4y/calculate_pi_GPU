@@ -94,6 +94,7 @@ int main(void)
     int NBlocks           = WIDTH*WIDTH/NBdim;
     int NThreadsPerBlock  = NBdim;
     Vector Vout     = AllocateVector(WIDTH * WIDTH/NBlocks);
+	  printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
 
     vectorReduction0<<<NBdim,NThreadsPerBlock,NThreadsPerBlock>>>(V,Vout);
 
