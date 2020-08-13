@@ -53,7 +53,7 @@ __global__  void vectorReduction0(Vector g_idata, Vector g_odata){
     if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
 }
 
-int main(void) 
+int parallel_reduction(void) 
 {
     int i,j;
     // Allocate and initialize the matrices

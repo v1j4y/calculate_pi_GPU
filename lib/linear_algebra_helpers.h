@@ -318,3 +318,6 @@ void SerializeMatrix(Matrix M, const char *filename)
     } 
 }
 
+
+// Do paralle reduction
+int parallel_reduction(void);
