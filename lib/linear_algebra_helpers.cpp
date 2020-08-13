@@ -13,24 +13,6 @@
 /* *****************************
  * Vector Functions
  ********************************/
-// Vector multiplication kernel ? thread specification
-__global__ void VectorMulKernel(Vector M, Vector N, Vector P)
-{
-    // 1D Thread ID
-    int tx = threadIdx.x;
-
-    // Pvalue is used to store the element of the vector
-    // that is computed by the thread
-    float Pvalue = 0;
-
-    float Melement = M.elements[tx];
-    float Nelement = N.elements[tx];
-    Pvalue += Melement * Nelement;
-
-    // Write the matrix to device memory;
-    // each thread writes one element
-    P.elements[tx] = Pvalue;
-}
 
 // Allocate a device vector of same size as V.
 Vector AllocateDeviceVector(const Vector V)
@@ -168,27 +150,6 @@ typedef struct {
 /* *****************************
  * Matrix Functions
  ********************************/
-// Matrix multiplication kernel ? thread specification
-__global__ void MatrixMulKernel(Matrix M, Matrix N, Matrix P)
-{
-    // 2D Thread ID
-    int tx = threadIdx.x;
-    int ty = threadIdx.y;
-
-    // Pvalue is used to store the element of the matrix
-    // that is computed by the thread
-    float Pvalue = 0;
- 
-    for (int k = 0; k < M.width; ++k)
-    { 
-         float Melement = M.elements[ty * M.width + k];
-         float Nelement = N.elements[k * N.width + tx];
-         Pvalue += Melement * Nelement;
-    } 
-    // Write the matrix to device memory;
-    // each thread writes one element
-    P.elements[ty * P.width + tx] = Pvalue;
-}
 
 // Allocate a device matrix of same size as M.
 Matrix AllocateDeviceMatrix(const Matrix M)

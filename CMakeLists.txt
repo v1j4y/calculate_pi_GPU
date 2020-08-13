@@ -21,7 +21,7 @@ message(STATUS "CMake version: ${CMAKE_VERSION}")
 option(USE_CUDA "Use CUDA" ON)
 
 file(GLOB cpu_source_files "${CMAKE_SOURCE_DIR}/lib/*.cpp")
-file(GLOB gpu_source_files "${CMAKE_SOURCE_DIR}/src/*.cu")
+file(GLOB gpu_source_files "${CMAKE_SOURCE_DIR}/src/*.cu" "${CMAKE_SOURCE_DIR}/lib/*.cu")
 
 if( ("${CMAKE_VERSION}" VERSION_EQUAL 3.8) OR
         ("${CMAKE_VERSION}" VERSION_GREATER 3.8) )
@@ -49,7 +49,7 @@ endif()
 
 # Find source files
 
-FILE(GLOB_RECURSE calcpigpu_SOURCES "src/*.cpp" "src/*.cu" "lib/*.cpp")
+FILE(GLOB_RECURSE calcpigpu_SOURCES "src/*.cpp" "src/*.cu" "lib/*.cpp" "lib/*cu")
 FILE(GLOB_RECURSE calcpigpu_HEADERS "lib/*.h")
 
 SET(calcpigpu_INCLUDE_DIRS "")
