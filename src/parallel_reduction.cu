@@ -110,23 +110,23 @@ int parallel_reduction(void)
     Vinp_d     = AllocateDeviceVector(V);
     Vout_d     = AllocateDeviceVector(Vout);
 
-    printf("Inupt Vector\n");
-    PrintVector(V.elements,V.length);
+//  printf("Inupt Vector\n");
+//  PrintVector(V.elements,V.length);
 
     // Copy data to device vector
     CopyToDeviceVector(Vinp_d, V);
 
     // Copy vectors to device
 
-    printf("%d) NBlocks = %d NThreadsPerBlock=%d \n",1,NBlocks,NThreadsPerBlock);
+//  printf("%d) NBlocks = %d NThreadsPerBlock=%d \n",1,NBlocks,NThreadsPerBlock);
 
     vectorReduction<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
 
     // Copy data from device
     CopyFromDeviceVector(Vout, Vout_d);
 
-    printf("Output Vector\n");
-    PrintVector(Vout.elements,Vout.length);
+//  printf("Output Vector\n");
+//  PrintVector(Vout.elements,Vout.length);
 
     sum = Vout.elements[0];
 //  for(unsigned int i = 0; i < Vout.length; i++)
