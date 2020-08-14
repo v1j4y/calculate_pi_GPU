@@ -4,13 +4,14 @@
  * Date:    12-08-2020
  */
 
-#include "testing.h"
+//#include "testing.h"
+#include "parallel_reduction.h"
 
 int main(void) 
 {
 
-//  int res = parallel_reduction();
-    int res = testing();
+    int res = parallel_reduction();
+//  int res = testing();
 
     return 0;
 }
