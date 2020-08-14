@@ -134,8 +134,8 @@ int parallel_reduction(void)
     dimOutVec = dimVec/NBdim1;
     printf("Level0 : Nblocks=%d NThreads=%d\n",NBlocks,NThreadsPerBlock);
 
-    dim3 dimBlock1(NThreadsPerBlock);
-    dim3 dimGrid1(NBlocks);
+    dim3 dimBlock1(NBlocks);
+    dim3 dimGrid1(NThreadsPerBlock);
 
     // Create device vectors
     Vout1 = AllocateZeroVector(dimOutVec);
