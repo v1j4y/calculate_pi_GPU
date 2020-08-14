@@ -18,7 +18,7 @@
 // reduction kernel level 0
 //
 // ----------------------------------------------------
-__global__  void vectorReduction0(Vector g_idata, Vector g_odata){
+__global__  void vectorReduction(Vector g_idata, Vector g_odata){
 
     // Size automatically determined using third execution control parameter
     // when kernel is invoked.
@@ -122,7 +122,7 @@ int parallel_reduction(void)
 
         printf("%d) NBlocks = %d NThreadsPerBlock=%d \n",i,NBlocks,NThreadsPerBlock);
 
-        vectorReduction0<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
+        vectorReduction<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
 
         // Copy data from device
         CopyFromDeviceVector(Vout, Vout_d);
