@@ -66,7 +66,7 @@ int parallel_reduction(void)
     // Initialize Matrix of grid points
     for(unsigned int i = 0; i < V.length; i++)
     {
-        V.elements[i] = (LenVec/2 - i)*(LenVec/2 - i);
+        V.elements[i] = i;//(LenVec/2 - i)*(LenVec/2 - i);
     }
  
     gettimeofday(&t1, 0);
