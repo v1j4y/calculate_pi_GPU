@@ -125,8 +125,8 @@ int parallel_reduction(void)
     // Copy data from device
     CopyFromDeviceVector(Vout, Vout_d);
 
-//  printf("Output Vector\n");
-//  PrintVector(Vout.elements,Vout.length);
+    printf("Output Vector\n");
+    PrintVector(Vout.elements,Vout.length);
 
     sum = Vout.elements[0];
 //  for(unsigned int i = 0; i < Vout.length; i++)
