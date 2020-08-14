@@ -112,6 +112,9 @@ int parallel_reduction(void)
         Vinp_d     = AllocateDeviceVector(V);
         Vout_d     = AllocateDeviceVector(Vout);
 
+        printf("Inupt Vector\n");
+        PrintVector(V.elements,V.length);
+
         // Copy data to device vector
         CopyToDeviceVector(Vinp_d, V);
 
