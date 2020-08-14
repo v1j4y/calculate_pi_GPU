@@ -167,9 +167,9 @@ int parallel_reduction(void)
 //  }
 //
     // Copy data from device
-    CopyFromDeviceVector(Vout, Vout_d);
+    CopyFromDeviceVector(Vout1, Vout1_d);
 
-    sum = Vout.elements[0];
+    sum = Vout1.elements[0];
 
     // print results
     printf("parallel Sum=%5.1f\n",sum);
