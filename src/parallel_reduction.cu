@@ -130,7 +130,7 @@ int parallel_reduction(void)
     //--------------------------------------------------------
 
     dimVec            = Vout_d.length;
-    int NBdim1        = 1
+    int NBdim1        = 1;
     NBlocks           = 1;
     NThreadsPerBlock  = dimVec/NBlocks;
     dimOutVec = NBlocks;
