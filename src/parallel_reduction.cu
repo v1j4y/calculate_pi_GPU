@@ -121,17 +121,19 @@ int parallel_reduction(void)
 
         vectorReduction0<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
 
-    }
+        // Copy data from device
+        CopyFromDeviceVector(Vout, Vout_d);
 
-    // Copy data from device
-    CopyFromDeviceVector(Vout, Vout_d);
+    }
 
     printf("Output Vector\n");
     PrintVector(Vout.elements,Vout.length);
 
     sum = 0.0;
     for(unsigned int i = 0; i < Vout.length; i++)
-      sum += Vout.elements[i];
+    {
+        sum += Vout.elements[i];
+    }
 
     // print results
     printf("parallel Sum=%5.1f\n",sum);
