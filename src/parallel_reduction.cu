@@ -127,15 +127,15 @@ int parallel_reduction(void)
     // Second level 1
     //--------------------------------------------------------
 
-    dimVec            = NThreadsPerBlock;
-    int NBdim1        = 1;             
+    dimVec            = NBlocks;
+    int NBdim1        = NBlocks;             
     NBlocks           = dimVec/NBdim1;
     NThreadsPerBlock  = NBdim1;
-    dimOutVec = dimVec/NBdim1;
+    dimOutVec = NBlocks;
     printf("Level0 : Nblocks=%d NThreads=%d\n",NBlocks,NThreadsPerBlock);
 
     dim3 dimBlock1(NBlocks);
-    dim3 dimGrid1(NThreadsPerBlock);
+    dim3 dimGrid1(1);
 
     // Create device vectors
     Vout1 = AllocateZeroVector(dimOutVec);
