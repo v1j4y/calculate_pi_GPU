@@ -115,15 +115,8 @@ int parallel_reduction(void)
     Vinp_d     = AllocateDeviceVector(V);
     Vout_d     = AllocateDeviceVector(Vout);
 
-//  printf("Inupt Vector\n");
-//  PrintVector(V.elements,V.length);
-
     // Copy data to device vector
     CopyToDeviceVector(Vinp_d, V);
-
-    // Copy vectors to device
-
-//  printf("%d) NBlocks = %d NThreadsPerBlock=%d \n",1,NBlocks,NThreadsPerBlock);
 
     vectorReduction<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
 
@@ -145,27 +138,8 @@ int parallel_reduction(void)
     Vout1 = AllocateZeroVector(dimOutVec);
     Vout1_d     = AllocateDeviceVector(Vout1);
 
-//  printf("Inupt Vector\n");
-//  PrintVector(V.elements,V.length);
-
-    // Copy data to device vector
-//  CopyToDeviceVector(Vinp_d, V);
-
-    // Copy vectors to device
-
-//  printf("%d) NBlocks = %d NThreadsPerBlock=%d \n",1,NBlocks,NThreadsPerBlock);
-
     vectorReduction<<<dimGrid, dimBlock, NBlocks>>>(Vout_d, Vout1_d);
 
-
-//  printf("Output Vector\n");
-//  PrintVector(Vout.elements,Vout.length);
-
-//  for(unsigned int i = 0; i < Vout.length; i++)
-//  {
-//      sum += Vout.elements[i];
-//  }
-//
     // Copy data from device
     CopyFromDeviceVector(Vout1, Vout1_d);
 
@@ -187,8 +161,11 @@ int parallel_reduction(void)
 //  FreeMatrix(M);
     FreeVector(V);
     FreeVector(Vout);
+    FreeVector(Vout1);
     FreeDeviceVector(Vinp_d);
     FreeDeviceVector(Vout_d);
+    FreeDeviceVector(Vinp1_d);
+    FreeDeviceVector(Vout1_d);
 
     return 0;
 }
