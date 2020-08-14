@@ -8,8 +8,8 @@
 
 // 2^13
 #define NMC  8192 
-#define LenVec 1024
-#define NBdim 512
+#define LenVec 256
+#define NBdim 16
 
 // ----------------------------------------------------
 // Parallel reduction on GPU based on presentation
