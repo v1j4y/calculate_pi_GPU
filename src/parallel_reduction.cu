@@ -108,6 +108,8 @@ int parallel_reduction(void)
     NBlocks           = dimVec/NBdim;
     NThreadsPerBlock  = NBdim;
 
+    printf("Level0 : Nblocks=%d NThreads=%d\n",NBlocks,NThreadsPerBlock);
+
     dim3 dimBlock(NThreadsPerBlock);
     dim3 dimGrid(NBlocks);
 
@@ -130,6 +132,7 @@ int parallel_reduction(void)
     NBlocks           = dimVec/NBdim1;
     NThreadsPerBlock  = NBdim1;
     dimOutVec = dimVec/NBdim1;
+    printf("Level0 : Nblocks=%d NThreads=%d\n",NBlocks,NThreadsPerBlock);
 
     dim3 dimBlock1(NThreadsPerBlock);
     dim3 dimGrid1(NBlocks);
