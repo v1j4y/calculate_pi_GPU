@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.8)
-PROJECT(calcpigpu C CXX)
+PROJECT(calcpigpu CUDA CXX)
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fopenmp -Wall -Wextra -pedantic")
