@@ -134,9 +134,9 @@ int parallel_reduction(void)
 
     dimVec            = NBdim;
     int NBdim1        = 1;             
-    NBlocks           = dimVec/NBdim;
-    NThreadsPerBlock  = NBdim;
-    int dimOutVec = dimVec/NBdim;
+    NBlocks           = dimVec/NBdim1;
+    NThreadsPerBlock  = NBdim1;
+    dimOutVec = dimVec/NBdim1;
 
     dim3 dimBlock1(NThreadsPerBlock);
     dim3 dimGrid1(NBlocks);
