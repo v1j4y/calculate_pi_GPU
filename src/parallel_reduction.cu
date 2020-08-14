@@ -127,7 +127,7 @@ int parallel_reduction(void)
     // Second level 1
     //--------------------------------------------------------
 
-    dimVec            = NBdim;
+    dimVec            = NThreadsPerBlock;
     int NBdim1        = 1;             
     NBlocks           = dimVec/NBdim1;
     NThreadsPerBlock  = NBdim1;
