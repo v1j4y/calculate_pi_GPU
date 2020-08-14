@@ -93,11 +93,16 @@ int parallel_reduction(void)
     // Parallel reduction 
     int NBlocks;
     int NThreadsPerBlock;
-    Vector Vout;
+    Vector Vout, Vout1;
     Vector Vinp_d, Vout_d;
+    Vector Vinp1_d, Vout1_d;
     int dimVec  = LenVec;
     int dimOutVec = dimVec/NBdim;
     Vout = AllocateZeroVector(dimOutVec);
+
+    //--------------------------------------------------------
+    // First  level 0
+    //--------------------------------------------------------
 
 
     NBlocks           = dimVec/NBdim;
@@ -122,18 +127,50 @@ int parallel_reduction(void)
 
     vectorReduction<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
 
-    // Copy data from device
-    CopyFromDeviceVector(Vout, Vout_d);
 
-    printf("Output Vector\n");
-    PrintVector(Vout.elements,Vout.length);
+    //--------------------------------------------------------
+    // Second level 1
+    //--------------------------------------------------------
 
-    sum = Vout.elements[0];
+    dimVec            = NBdim;
+    int NBdim1        = 1;             
+    NBlocks           = dimVec/NBdim;
+    NThreadsPerBlock  = NBdim;
+    int dimOutVec = dimVec/NBdim;
+
+    dim3 dimBlock1(NThreadsPerBlock);
+    dim3 dimGrid1(NBlocks);
+
+    // Create device vectors
+    Vout1 = AllocateZeroVector(dimOutVec);
+    Vout1_d     = AllocateDeviceVector(Vout1);
+
+//  printf("Inupt Vector\n");
+//  PrintVector(V.elements,V.length);
+
+    // Copy data to device vector
+//  CopyToDeviceVector(Vinp_d, V);
+
+    // Copy vectors to device
+
+//  printf("%d) NBlocks = %d NThreadsPerBlock=%d \n",1,NBlocks,NThreadsPerBlock);
+
+    vectorReduction<<<dimGrid, dimBlock, NBlocks>>>(Vout_d, Vout1_d);
+
+
+//  printf("Output Vector\n");
+//  PrintVector(Vout.elements,Vout.length);
+
 //  for(unsigned int i = 0; i < Vout.length; i++)
 //  {
 //      sum += Vout.elements[i];
 //  }
 //
+    // Copy data from device
+    CopyFromDeviceVector(Vout, Vout_d);
+
+    sum = Vout.elements[0];
+
     // print results
     printf("parallel Sum=%5.1f\n",sum);
 
