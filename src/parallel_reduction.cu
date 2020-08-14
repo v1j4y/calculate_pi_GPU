@@ -8,7 +8,8 @@
 
 // 2^13
 #define NMC  8192 
-#define LenVec 1024
+#define LenVec 256
+#define NBdim 64
 
 // ----------------------------------------------------
 // Parallel reduction on GPU based on presentation
@@ -95,42 +96,37 @@ int parallel_reduction(void)
     Vector Vout;
     Vector Vinp_d, Vout_d;
     int dimVec  = LenVec;
-    int NBdim   = 128;
     int dimOutVec = dimVec/NBdim;
     Vout = AllocateZeroVector(dimOutVec);
 
-//  for(unsigned int i = 1; i < 2; i *= 2)
-//  {
 
-        NBlocks           = dimVec/NBdim;
-        NThreadsPerBlock  = NBdim;
+    NBlocks           = dimVec/NBdim;
+    NThreadsPerBlock  = NBdim;
 
-        dim3 dimBlock(NThreadsPerBlock);
-        dim3 dimGrid(NBlocks);
+    dim3 dimBlock(NThreadsPerBlock);
+    dim3 dimGrid(NBlocks);
 
-        // Create device vectors
-        Vinp_d     = AllocateDeviceVector(V);
-        Vout_d     = AllocateDeviceVector(Vout);
+    // Create device vectors
+    Vinp_d     = AllocateDeviceVector(V);
+    Vout_d     = AllocateDeviceVector(Vout);
 
-        printf("Inupt Vector\n");
-        PrintVector(V.elements,V.length);
+    printf("Inupt Vector\n");
+    PrintVector(V.elements,V.length);
 
-        // Copy data to device vector
-        CopyToDeviceVector(Vinp_d, V);
+    // Copy data to device vector
+    CopyToDeviceVector(Vinp_d, V);
 
-        // Copy vectors to device
+    // Copy vectors to device
 
-        printf("%d) NBlocks = %d NThreadsPerBlock=%d \n",1,NBlocks,NThreadsPerBlock);
+    printf("%d) NBlocks = %d NThreadsPerBlock=%d \n",1,NBlocks,NThreadsPerBlock);
 
-        vectorReduction<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
+    vectorReduction<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
 
-        // Copy data from device
-        CopyFromDeviceVector(Vout, Vout_d);
+    // Copy data from device
+    CopyFromDeviceVector(Vout, Vout_d);
 
-        printf("Output Vector\n");
-        PrintVector(Vout.elements,Vout.length);
-
-//  }
+    printf("Output Vector\n");
+    PrintVector(Vout.elements,Vout.length);
 
     sum = 0.0;
     for(unsigned int i = 0; i < Vout.length; i++)
