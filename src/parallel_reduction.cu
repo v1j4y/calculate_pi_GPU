@@ -99,8 +99,8 @@ int parallel_reduction(void)
     int dimOutVec = dimVec/NBdim;
     Vout = AllocateZeroVector(dimOutVec);
 
-    for(unsigned int i = 1; i < 2; i *= 2)
-    {
+//  for(unsigned int i = 1; i < 2; i *= 2)
+//  {
 
         NBlocks           = dimVec/NBdim;
         NThreadsPerBlock  = NBdim;
@@ -120,7 +120,7 @@ int parallel_reduction(void)
 
         // Copy vectors to device
 
-        printf("%d) NBlocks = %d NThreadsPerBlock=%d \n",i,NBlocks,NThreadsPerBlock);
+        printf("%d) NBlocks = %d NThreadsPerBlock=%d \n",1,NBlocks,NThreadsPerBlock);
 
         vectorReduction<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
 
@@ -130,7 +130,7 @@ int parallel_reduction(void)
         printf("Output Vector\n");
         PrintVector(Vout.elements,Vout.length);
 
-    }
+//  }
 
     sum = 0.0;
     for(unsigned int i = 0; i < Vout.length; i++)
