@@ -7,10 +7,6 @@
 #include "linear_algebra_helpers.h"
 
 /* *****************************
- * Vector Type
- ********************************/
-
-/* *****************************
  * Vector Functions
  ********************************/
 // Vector multiplication kernel ? thread specification
@@ -155,15 +151,6 @@ void SerializeVector(Vector V, const char *filename)
     } 
 }
 
-
-/* *****************************
- * Matrix Type
- ********************************/
-typedef struct {
-    int width;
-    int height;
-    float* elements;
-} Matrix;
 
 /* *****************************
  * Matrix Functions
