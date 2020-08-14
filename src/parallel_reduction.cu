@@ -117,7 +117,7 @@ int parallel_reduction(void)
 
         // Copy vectors to device
 
-        printf("NBlocks = %d NThreadsPerBlock=%d \n",NBlocks,NThreadsPerBlock);
+        printf("%d) NBlocks = %d NThreadsPerBlock=%d \n",i,NBlocks,NThreadsPerBlock);
 
         vectorReduction0<<<dimGrid, dimBlock, NBlocks>>>(Vinp_d, Vout_d);
 
