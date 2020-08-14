@@ -9,7 +9,8 @@
 int main(void) 
 {
 
-    int res = parallel_reduction();
+//  int res = parallel_reduction();
+    int res = testing();
 
     return 0;
 }
