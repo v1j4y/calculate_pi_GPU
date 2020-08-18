@@ -8,7 +8,7 @@
 
 // 2^13
 #define NMC  8192 
-#define LenVec 4096
+#define LenVec 8192
 #define NBdim 64
 
 // ----------------------------------------------------
