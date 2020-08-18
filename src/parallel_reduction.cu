@@ -105,7 +105,7 @@ int parallel_reduction(void)
     //--------------------------------------------------------
 
 
-    NBlocks           = dimVec/NBdim;
+    NBlocks           = std::min(dimVec/NBdim,64);
     NThreadsPerBlock  = NBdim;
 
     printf("Level0 : Nblocks=%d NThreads=%d\n",NBlocks,NThreadsPerBlock);
@@ -132,7 +132,8 @@ int parallel_reduction(void)
     dimVec            = Vout_d.length;
     int NBdim1        = 1;
     NBlocks           = 1;
-    NThreadsPerBlock  = dimVec/NBlocks;
+//  NThreadsPerBlock  = dimVec/NBlocks;
+    NThreadsPerBlock  = std::min(dimVec/NBlocks,64);
     dimOutVec = NBlocks;
     printf("Level0 : Nblocks=%d NThreads=%d\n",NBlocks,NThreadsPerBlock);
 
