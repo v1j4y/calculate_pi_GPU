@@ -147,7 +147,7 @@ int parallel_reduction(void)
 {
     int i,j;
     // Allocate and initialize the matrices
-    int nParts = 4096 * 64;
+    int nParts = 4096;
     Vector  V     = AllocateVector(nParts * LenVec);
     printf("----------------------\n");
     printf("Total Vector Size = %d\n",nParts * LenVec);
@@ -170,7 +170,7 @@ int parallel_reduction(void)
 
     for(unsigned int j=1; j <= nParts; j++)
     {
-      for(unsigned int i=0; i < LenVec * 2; i++)
+      for(unsigned int i=0; i < LenVec; i++)
       {
           sum += V.elements[i + (j - 1) * LenVec];
       }
