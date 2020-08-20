@@ -8,8 +8,8 @@
 
 // 2^13
 #define NMC  8192 
-#define LenVec 2048
-#define NBdim 128
+#define LenVec 1024
+#define NBdim 64
 
 // ----------------------------------------------------
 // Parallel reduction on GPU based on presentation
@@ -126,7 +126,7 @@ int parallel_reduction(void)
       // First  level 0
       //--------------------------------------------------------
 
-      NBlocks           = std::min(dimVec/NBdim,128);
+      NBlocks           = std::min(dimVec/NBdim,64);
       NThreadsPerBlock  = NBdim;
 
 //    printf("Level0 : Nblocks=%d NThreads=%d\n",NBlocks,NThreadsPerBlock);
@@ -147,7 +147,7 @@ int parallel_reduction(void)
       int NBdim1        = 1;
       NBlocks           = 1;
 //    NThreadsPerBlock  = dimVec/NBlocks;
-      NThreadsPerBlock  = std::min(dimVec/NBlocks,128);
+      NThreadsPerBlock  = std::min(dimVec/NBlocks,64);
       dimOutVec = NBlocks;
 //    printf("Level0 : Nblocks=%d NThreads=%d\n",NBlocks,NThreadsPerBlock);
 
