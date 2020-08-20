@@ -106,7 +106,7 @@ int parallel_reduction(void)
     sum = 0;
 
     // Create device vectors
-    Vinp_d     = AllocateDeviceVector(V, LenVec);
+    Vinp_d     = AllocateDeviceVector(V, nParts * LenVec);
     Vout_d     = AllocateDeviceVector(Vout);
 
     // Copy data to device vector
