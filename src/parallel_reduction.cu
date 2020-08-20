@@ -58,7 +58,7 @@ int parallel_reduction(void)
 {
     int i,j;
     // Allocate and initialize the matrices
-    Vector  V     = AllocateVector(LenVec);
+    Vector  V     = AllocateVector(2 * LenVec);
 
     // Timing stuff
     struct timeval t1, t2;
@@ -75,7 +75,7 @@ int parallel_reduction(void)
     // Serial Reduction of Vector elements
     float sum = 0;
 
-    for(unsigned int i=0; i < V.length; i++)
+    for(unsigned int i=0; i < V.length/2; i++)
     {
         sum += V.elements[i];
     }
@@ -120,7 +120,7 @@ int parallel_reduction(void)
     Vout_d     = AllocateDeviceVector(Vout);
 
     // Copy data to device vector
-    CopyToDeviceVector(Vinp_d, V);
+    CopyToDeviceVector(Vinp_d, V, 0, LenVec/2);
 
     vectorReduction<<<dimGrid, dimBlock, NBdim>>>(Vinp_d, Vout_d);
 

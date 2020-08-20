@@ -43,6 +43,9 @@ void CopyVector(Vector Vout, Vector Vinp);
 // Copy a host vector to a device vector.
 void CopyToDeviceVector(Vector Vdevice, const Vector Vhost);
 
+// Copy a host vector to a device vector.
+void CopyToDeviceVector(Vector Vdevice, const Vector Vhost, int idxBegin, int size)
+
 // Copy a device vector to a host vector.
 void CopyFromDeviceVector(Vector Vhost, const Vector Vdevice);
 
