@@ -117,7 +117,7 @@ int parallel_reduction(void)
 
       int dimVec  = LenVec;
       int dimOutVec = dimVec/NBdim;
-      if(idxParts == 1) Vout = AllocateZeroVector(dimOutVec);
+      Vout = AllocateZeroVector(dimOutVec);
 
       //--------------------------------------------------------
       // First  level 0
@@ -155,8 +155,8 @@ int parallel_reduction(void)
       dim3 dimBlock1(NThreadsPerBlock);
 
       // Create device vectors
-      if(idxParts == 1) Vout1 = AllocateZeroVector(dimOutVec);
-      if(idxParts == 1) Vout1_d     = AllocateDeviceVector(Vout1);
+      Vout1 = AllocateZeroVector(dimOutVec);
+      Vout1_d     = AllocateDeviceVector(Vout1);
 
       vectorReduction<<<dimGrid1, dimBlock1, NBdim>>>(Vout_d, Vout1_d);
 
