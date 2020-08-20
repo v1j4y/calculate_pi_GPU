@@ -58,7 +58,7 @@ int parallel_reduction(void)
 {
     int i,j;
     // Allocate and initialize the matrices
-    int nParts = 2;
+    int nParts = 2048;
     Vector  V     = AllocateVector(nParts * LenVec);
     printf("----------------------\n");
     printf("Total Vector Size = %d\n",nParts * LenVec);
