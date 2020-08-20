@@ -105,7 +105,11 @@ int parallel_reduction(void)
     Vector Vinp1_d, Vout1_d;
     sum = 0;
 
+    int dimVec  = LenVec;
+    int dimOutVec = dimVec/NBdim;
+
     // Create device vectors
+    Vout = AllocateZeroVector(dimOutVec);
     Vinp_d     = AllocateDeviceVector(V, nParts * LenVec);
     Vout_d     = AllocateDeviceVector(Vout);
 
@@ -115,9 +119,8 @@ int parallel_reduction(void)
     for(int idxParts = 1; idxParts <= nParts; idxParts++)
     {
 
-      int dimVec  = LenVec;
-      int dimOutVec = dimVec/NBdim;
-      Vout = AllocateZeroVector(dimOutVec);
+      dimVec  = LenVec;
+      dimOutVec = dimVec/NBdim;
 
       //--------------------------------------------------------
       // First  level 0
