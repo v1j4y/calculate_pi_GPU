@@ -159,7 +159,7 @@ int parallel_reduction(void)
       CopyFromDeviceVector(Vout1, Vout1_d);
 
       sum += Vout1.elements[0];
-      printf("i=%d sum=%5d\n",i,sum);
+      printf("i=%d sum=%5f\n",idxParts,sum);
     }
 
     // print results
