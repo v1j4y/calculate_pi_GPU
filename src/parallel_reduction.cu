@@ -58,7 +58,7 @@ int parallel_reduction(void)
 {
     int i,j;
     // Allocate and initialize the matrices
-    int nParts = 16192;
+    int nParts = 2;
     Vector  V     = AllocateVector(nParts * LenVec);
     printf("----------------------\n");
     printf("Total Vector Size = %d\n",nParts * LenVec);
@@ -105,12 +105,19 @@ int parallel_reduction(void)
     Vector Vinp1_d, Vout1_d;
     sum = 0;
 
+    // Create device vectors
+    Vinp_d     = AllocateDeviceVector(V, LenVec);
+    Vout_d     = AllocateDeviceVector(Vout);
+
+    // Copy data to device vector
+    CopyToDeviceVector(Vinp_d, V, (idxParts - 1)*LenVec, LenVec);
+
     for(int idxParts = 1; idxParts <= nParts; idxParts++)
     {
 
       int dimVec  = LenVec;
       int dimOutVec = dimVec/NBdim;
-      Vout = AllocateZeroVector(dimOutVec);
+      if(idxParts==1) Vout = AllocateZeroVector(dimOutVec);
 
       //--------------------------------------------------------
       // First  level 0
@@ -126,13 +133,6 @@ int parallel_reduction(void)
       dim3 dimGrid(NBlocks);
       // Dimension of each block
       dim3 dimBlock(NThreadsPerBlock);
-
-      // Create device vectors
-      Vinp_d     = AllocateDeviceVector(V, LenVec);
-      Vout_d     = AllocateDeviceVector(Vout);
-
-      // Copy data to device vector
-      CopyToDeviceVector(Vinp_d, V, (idxParts - 1)*LenVec, LenVec);
 
       vectorReduction<<<dimGrid, dimBlock, NBdim>>>(Vinp_d, Vout_d);
 
@@ -155,8 +155,8 @@ int parallel_reduction(void)
       dim3 dimBlock1(NThreadsPerBlock);
 
       // Create device vectors
-      Vout1 = AllocateZeroVector(dimOutVec);
-      Vout1_d     = AllocateDeviceVector(Vout1);
+      if(idxParts==1) Vout1 = AllocateZeroVector(dimOutVec);
+      if(idxParts==1) Vout1_d     = AllocateDeviceVector(Vout1);
 
       vectorReduction<<<dimGrid1, dimBlock1, NBdim>>>(Vout_d, Vout1_d);
 
