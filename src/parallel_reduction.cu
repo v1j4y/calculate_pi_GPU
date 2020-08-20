@@ -163,7 +163,7 @@ int parallel_reduction(void)
       vectorReduction<<<dimGrid1, dimBlock1, NBdim>>>(0, Vout_d, Vout1_d);
 
       // Copy data from device
-      if(idxParts == 1) CopyFromDeviceVector(Vout1, Vout1_d);
+      CopyFromDeviceVector(Vout1, Vout1_d);
 
       sum += Vout1.elements[0];
 //    printf("i=%d sum=%5f\n",idxParts,sum);
