@@ -95,7 +95,6 @@ int parallel_reduction(void)
     printf("Time serial sum:  %3.1f ms \n", time);
 
 
-    gettimeofday(&t1, 0);
 
     // Parallel reduction 
     int NBlocks;
@@ -115,6 +114,8 @@ int parallel_reduction(void)
 
     // Copy data to device vector
     CopyToDeviceVector(Vinp_d, V, 0, nParts * LenVec);
+
+    gettimeofday(&t1, 0);
 
     for(int idxParts = 1; idxParts <= nParts; idxParts++)
     {
