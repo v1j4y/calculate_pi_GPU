@@ -117,10 +117,10 @@ int parallel_reduction(void)
 
     gettimeofday(&t1, 0);
 
-    for(int idxParts = 1; idxParts <= nParts; idxParts++)
+    for(int idxParts = 1; idxParts <= nParts/2; idxParts++)
     {
 
-      dimVec  = LenVec;
+      dimVec  = LenVec * 2;
       dimOutVec = dimVec/NBdim;
 
       //--------------------------------------------------------
@@ -137,7 +137,7 @@ int parallel_reduction(void)
       // Dimension of each block
       dim3 dimBlock(NThreadsPerBlock);
 
-      vectorReduction<<<dimGrid, dimBlock, NBdim>>>((idxParts - 1) * LenVec, Vinp_d, Vout_d);
+      vectorReduction<<<dimGrid, dimBlock, NBdim>>>((idxParts - 1) * dimVec, Vinp_d, Vout_d);
 
 
       //--------------------------------------------------------
