@@ -32,6 +32,8 @@ __global__ void VectorMulKernel(Vector M, Vector N, Vector P);
 // Allocate a device vector of same size as V.
 Vector AllocateDeviceVector(const Vector V);
 
+Vector AllocateDeviceVector(const Vector V, int sizeN);
+
 // Free a device vector.
 void FreeDeviceVector(Vector V);
 
@@ -44,7 +46,7 @@ void CopyVector(Vector Vout, Vector Vinp);
 void CopyToDeviceVector(Vector Vdevice, const Vector Vhost);
 
 // Copy a host vector to a device vector.
-void CopyToDeviceVector(Vector Vdevice, const Vector Vhost, int idxBegin, int size);
+void CopyToDeviceVector(Vector Vdevice, const Vector Vhost, int idxBegin, int sizeN);
 
 // Copy a device vector to a host vector.
 void CopyFromDeviceVector(Vector Vhost, const Vector Vdevice);

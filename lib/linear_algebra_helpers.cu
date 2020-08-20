@@ -29,6 +29,15 @@ __global__ void VectorMulKernel(Vector M, Vector N, Vector P)
 }
 
 // Allocate a device vector of same size as V.
+Vector AllocateDeviceVector(const Vector V, int sizeN)
+{
+    Vector Vdevice = V;
+    int size = sizeN * sizeof(float);
+    cudaMalloc((void**)&Vdevice.elements, size);
+    return Vdevice;
+}
+
+// Allocate a device vector of same size as V.
 Vector AllocateDeviceVector(const Vector V)
 {
     Vector Vdevice = V;
@@ -62,8 +71,9 @@ void CopyToDeviceVector(Vector Vdevice, const Vector Vhost)
 }
 
 // Copy a host vector to a device vector.
-void CopyToDeviceVector(Vector Vdevice, const Vector Vhost, int idxBegin, int size)
+void CopyToDeviceVector(Vector Vdevice, const Vector Vhost, int idxBegin, int sizeN)
 {
+    int size = sizeN * sizeof(float);
     cudaMemcpy(Vdevice.elements, Vhost.elements + sizeof(float)*idxBegin, size, 
     cudaMemcpyHostToDevice);
 }
