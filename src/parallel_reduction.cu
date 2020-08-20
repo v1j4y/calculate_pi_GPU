@@ -58,7 +58,11 @@ int parallel_reduction(void)
 {
     int i,j;
     // Allocate and initialize the matrices
-    Vector  V     = AllocateVector(2 * LenVec);
+    int nParts = 4;
+    Vector  V     = AllocateVector(nParts * LenVec);
+    printf("----------------------\n");
+    printf("Total Vector Size = %d\n",nParts * LenVec);
+    printf("----------------------\n");
 
     // Timing stuff
     struct timeval t1, t2;
@@ -75,19 +79,15 @@ int parallel_reduction(void)
     // Serial Reduction of Vector elements
     float sum = 0;
 
-    for(unsigned int i=1; i < LenVec; i++)
+    for(unsigned int j=1; j <= nParts; j++)
     {
-        sum += V.elements[i];
+      for(unsigned int i=0; i < LenVec; i++)
+      {
+          sum += V.elements[i + (j - 1) * LenVec];
+      }
+      printf("%d) Serial Sum=%5.1f\n",j,sum);
     }
-    printf("Serial Sum=%5.1f\n",sum);
 
-    for(unsigned int i=LenVec ; i < 2 * LenVec; i++)
-    {
-        sum += V.elements[i];
-    }
-    printf("Serial Sum=%5.1f\n",sum);
-    
-    
     gettimeofday(&t2, 0);
     
     time = (1000000.0*(t2.tv_sec-t1.tv_sec) + t2.tv_usec-t1.tv_usec)/1000.0;
@@ -104,8 +104,6 @@ int parallel_reduction(void)
     Vector Vinp_d, Vout_d;
     Vector Vinp1_d, Vout1_d;
     sum = 0;
-
-    int nParts  = 2;
 
     for(int idxParts = 1; idxParts <= nParts; idxParts++)
     {
