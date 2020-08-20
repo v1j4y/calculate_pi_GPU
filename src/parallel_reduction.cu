@@ -58,7 +58,7 @@ int parallel_reduction(void)
 {
     int i,j;
     // Allocate and initialize the matrices
-    int nParts = 8;
+    int nParts = 32;
     Vector  V     = AllocateVector(nParts * LenVec);
     printf("----------------------\n");
     printf("Total Vector Size = %d\n",nParts * LenVec);
@@ -71,7 +71,7 @@ int parallel_reduction(void)
     // Initialize Matrix of grid points
     for(unsigned int i = 0; i < V.length; i++)
     {
-        V.elements[i] = i;//(LenVec/2 - i)*(LenVec/2 - i);
+        V.elements[i] = i/1000;//(LenVec/2 - i)*(LenVec/2 - i);
     }
  
     gettimeofday(&t1, 0);
