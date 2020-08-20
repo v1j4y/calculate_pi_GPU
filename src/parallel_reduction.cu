@@ -86,7 +86,7 @@ int parallel_reduction(void)
           sum += V.elements[i + (j - 1) * LenVec];
       }
     }
-    printf("%d) Serial Sum=%5.1f\n",j,sum);
+    printf("Serial Sum=%5.1f\n",j,sum);
 
     gettimeofday(&t2, 0);
     
