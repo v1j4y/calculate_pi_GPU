@@ -74,7 +74,7 @@ void CopyToDeviceVector(Vector Vdevice, const Vector Vhost)
 void CopyToDeviceVector(Vector Vdevice, const Vector Vhost, int idxBegin, int sizeN)
 {
     int size = sizeN * sizeof(float);
-    cudaMemcpy(Vdevice.elements, Vhost.elements + sizeof(float)*idxBegin, size, 
+    cudaMemcpy(Vdevice.elements, Vhost.elements + idxBegin, size, 
     cudaMemcpyHostToDevice);
 }
 
