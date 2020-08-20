@@ -170,7 +170,7 @@ int parallel_reduction(void)
 //    printf("i=%d sum=%5f\n",idxParts,sum);
     }
 
-    cudaThreadSynchronize();
+//  cudaThreadSynchronize();
     
     gettimeofday(&t2, 0);
 
