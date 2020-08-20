@@ -100,7 +100,7 @@ int parallel_reduction(void)
 
     int nParts  = 2;
 
-    for(int idxParts = 0; idxParts < nParts; idxParts++)
+    for(int idxParts = 1; idxParts <= nParts; idxParts++)
     {
 
       int dimVec  = LenVec;
