@@ -126,7 +126,6 @@ int parallel_reduction(void)
       // First  level 0
       //--------------------------------------------------------
 
-
       NBlocks           = std::min(dimVec/NBdim,64);
       NThreadsPerBlock  = NBdim;
 
@@ -158,8 +157,8 @@ int parallel_reduction(void)
       dim3 dimBlock1(NThreadsPerBlock);
 
       // Create device vectors
-      Vout1 = AllocateZeroVector(dimOutVec);
-      Vout1_d     = AllocateDeviceVector(Vout1);
+      if(idxParts == 1) Vout1 = AllocateZeroVector(dimOutVec);
+      if(idxParts == 1) Vout1_d     = AllocateDeviceVector(Vout1);
 
       vectorReduction<<<dimGrid1, dimBlock1, NBdim>>>(0, Vout_d, Vout1_d);
 
