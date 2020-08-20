@@ -19,7 +19,7 @@
 // reduction kernel level 0
 //
 // ----------------------------------------------------
-__global__  void vectorReduction(Vector g_idata, Vector g_odata){
+__global__  void vectorReduction(unsigned int startIdx, Vector g_idata, Vector g_odata){
 
     // Size automatically determined using third execution control parameter
     // when kernel is invoked.
@@ -31,7 +31,7 @@ __global__  void vectorReduction(Vector g_idata, Vector g_odata){
     // This instruction copies data from 
     // global to shared memory of each block.
     // Only threads of a block can access this shared memory.
-    sdata[tid]  = g_idata.elements[index];
+    sdata[tid]  = g_idata.elements[startIdx + index];
 
     // Synchronize threads, basically a barrier.
     __syncthreads();
@@ -134,7 +134,7 @@ int parallel_reduction(void)
       // Dimension of each block
       dim3 dimBlock(NThreadsPerBlock);
 
-      vectorReduction<<<dimGrid, dimBlock, NBdim>>>(Vinp_d, Vout_d);
+      vectorReduction<<<dimGrid, dimBlock, NBdim>>>((idxParts - 1) * LenVec, Vinp_d, Vout_d);
 
 
       //--------------------------------------------------------
@@ -158,7 +158,7 @@ int parallel_reduction(void)
       Vout1 = AllocateZeroVector(dimOutVec);
       Vout1_d     = AllocateDeviceVector(Vout1);
 
-      vectorReduction<<<dimGrid1, dimBlock1, NBdim>>>(Vout_d, Vout1_d);
+      vectorReduction<<<dimGrid1, dimBlock1, NBdim>>>(0, Vout_d, Vout1_d);
 
       // Copy data from device
       CopyFromDeviceVector(Vout1, Vout1_d);
