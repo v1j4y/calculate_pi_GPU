@@ -170,7 +170,7 @@ int parallel_reduction(void)
 
     for(unsigned int j=1; j <= nParts; j++)
     {
-      for(unsigned int i=0; i < LenVec; i++)
+      for(unsigned int i=0; i < LenVec * 2; i++)
       {
           sum += V.elements[i + (j - 1) * LenVec];
       }
