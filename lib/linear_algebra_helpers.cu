@@ -64,7 +64,7 @@ void CopyToDeviceVector(Vector Vdevice, const Vector Vhost)
 // Copy a host vector to a device vector.
 void CopyToDeviceVector(Vector Vdevice, const Vector Vhost, int idxBegin, int size)
 {
-    cudaMemcpy(Vdevice.elements, Vhost.elements[idxBegin], size, 
+    cudaMemcpy(Vdevice.elements, Vhost.elements + sizeof(float)*idxBegin, size, 
     cudaMemcpyHostToDevice);
 }
 
