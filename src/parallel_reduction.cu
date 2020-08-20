@@ -120,7 +120,7 @@ int parallel_reduction(void)
     Vout_d     = AllocateDeviceVector(Vout);
 
     // Copy data to device vector
-    CopyToDeviceVector(Vinp_d, V, 0, LenVec/2);
+    CopyToDeviceVector(Vinp_d, V, 0, (int)LenVec/2);
 
     vectorReduction<<<dimGrid, dimBlock, NBdim>>>(Vinp_d, Vout_d);
 
