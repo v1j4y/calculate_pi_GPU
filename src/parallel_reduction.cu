@@ -101,6 +101,48 @@ __global__  void vectorReduction2(unsigned int startIdx, Vector g_idata, Vector 
     if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
 }
 
+// ----------------------------------------------------
+// Parallel reduction on GPU based on presentation
+// by Mark Harris, NVIDIA.
+// 
+// 
+// Kernel Optimization Level 3.
+//
+// ----------------------------------------------------
+__global__  void vectorReduction3(unsigned int startIdx, Vector g_idata, Vector g_odata){
+
+    // Size automatically determined using third execution control parameter
+    // when kernel is invoked.
+    extern __shared__ float sdata[];
+
+    int tid     = threadIdx.x;
+    int index   = blockIdx.x * blockDim.x + threadIdx.x;
+
+    // This instruction copies data from 
+    // global to shared memory of each block.
+    // Only threads of a block can access this shared memory.
+    sdata[tid]  = g_idata.elements[startIdx + index];
+
+    // Synchronize threads, basically a barrier.
+    __syncthreads();
+    
+    // Do the reduction in shared memory buffer
+    // Thread Id:  0 - 1 - 2 - 3 - 4 - 5
+    //             |  /    |  /    |  /
+    //             0       2       4
+		for (unsigned int s=blockDim.x/2; s>0; s>>=1) 
+    { 
+        if (tid < s) 
+		    {
+				  sdata[tid] += sdata[tid + s]; 
+        }
+        __syncthreads(); 
+    }
+
+    // Write back result to global memory
+    if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
+}
+
 int parallel_reduction(void) 
 {
     int i,j;
@@ -184,7 +226,7 @@ int parallel_reduction(void)
       // Dimension of each block
       dim3 dimBlock(NThreadsPerBlock);
 
-      vectorReduction2<<<dimGrid, dimBlock, NBdim>>>((idxParts - 1) * dimVec, Vinp_d, Vout_d);
+      vectorReduction3<<<dimGrid, dimBlock, NBdim>>>((idxParts - 1) * dimVec, Vinp_d, Vout_d);
 
 
       //--------------------------------------------------------
@@ -208,7 +250,7 @@ int parallel_reduction(void)
       if(idxParts == 1) Vout1 = AllocateZeroVector(dimOutVec);
       if(idxParts == 1) Vout1_d     = AllocateDeviceVector(Vout1);
 
-      vectorReduction2<<<dimGrid1, dimBlock1, NBdim>>>(0, Vout_d, Vout1_d);
+      vectorReduction3<<<dimGrid1, dimBlock1, NBdim>>>(0, Vout_d, Vout1_d);
 
       // Copy data from device
       CopyFromDeviceVector(Vout1, Vout1_d);
