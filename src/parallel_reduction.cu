@@ -46,9 +46,10 @@ __global__  void vectorReduction(unsigned int startIdx, Vector g_idata, Vector g
         {
            sdata[tid] += sdata[tid + s];
         }
+
+        __syncthreads();
     }
 
-    __syncthreads();
 
     // Write back result to global memory
     if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
@@ -91,9 +92,10 @@ __global__  void vectorReduction2(unsigned int startIdx, Vector g_idata, Vector 
         { 
           sdata[index] += sdata[index + s];
         }
+
+        __syncthreads();
     }
 
-    __syncthreads();
 
     // Write back result to global memory
     if(tid == 0) g_odata.elements[blockIdx.x] = sdata[0];
