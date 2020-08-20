@@ -85,7 +85,7 @@ int parallel_reduction(void)
       {
           sum += V.elements[i + (j - 1) * LenVec];
       }
-      printf("%d) Serial Sum=%5.1f\n",j,sum);
+//    printf("%d) Serial Sum=%5.1f\n",j,sum);
     }
 
     gettimeofday(&t2, 0);
@@ -164,7 +164,7 @@ int parallel_reduction(void)
       CopyFromDeviceVector(Vout1, Vout1_d);
 
       sum += Vout1.elements[0];
-      printf("i=%d sum=%5f\n",idxParts,sum);
+//    printf("i=%d sum=%5f\n",idxParts,sum);
     }
 
     // print results
