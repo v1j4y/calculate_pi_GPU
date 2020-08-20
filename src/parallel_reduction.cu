@@ -75,7 +75,7 @@ int parallel_reduction(void)
     // Serial Reduction of Vector elements
     float sum = 0;
 
-    for(unsigned int i=0; i < LenVec; i++)
+    for(unsigned int i=1; i < LenVec; i++)
     {
         sum += V.elements[i];
     }
@@ -96,62 +96,71 @@ int parallel_reduction(void)
     Vector Vout, Vout1;
     Vector Vinp_d, Vout_d;
     Vector Vinp1_d, Vout1_d;
-    int dimVec  = LenVec;
-    int dimOutVec = dimVec/NBdim;
-    Vout = AllocateZeroVector(dimOutVec);
+    sum = 0;
 
-    //--------------------------------------------------------
-    // First  level 0
-    //--------------------------------------------------------
+    int nParts  = 2;
 
+    for(int idxParts = 0; idxParts < nParts; idxParts++)
+    {
 
-    NBlocks           = std::min(dimVec/NBdim,64);
-    NThreadsPerBlock  = NBdim;
+      int dimVec  = LenVec;
+      int dimOutVec = dimVec/NBdim;
+      Vout = AllocateZeroVector(dimOutVec);
 
-    printf("Level0 : Nblocks=%d NThreads=%d\n",NBlocks,NThreadsPerBlock);
-
-    // Number of block grids
-    dim3 dimGrid(NBlocks);
-    // Dimension of each block
-    dim3 dimBlock(NThreadsPerBlock);
-
-    // Create device vectors
-    Vinp_d     = AllocateDeviceVector(V, LenVec);
-    Vout_d     = AllocateDeviceVector(Vout);
-
-    // Copy data to device vector
-    CopyToDeviceVector(Vinp_d, V, 0, LenVec);
-
-    vectorReduction<<<dimGrid, dimBlock, NBdim>>>(Vinp_d, Vout_d);
+      //--------------------------------------------------------
+      // First  level 0
+      //--------------------------------------------------------
 
 
-    //--------------------------------------------------------
-    // Second level 1
-    //--------------------------------------------------------
+      NBlocks           = std::min(dimVec/NBdim,64);
+      NThreadsPerBlock  = NBdim;
 
-    dimVec            = Vout_d.length;
-    int NBdim1        = 1;
-    NBlocks           = 1;
-//  NThreadsPerBlock  = dimVec/NBlocks;
-    NThreadsPerBlock  = std::min(dimVec/NBlocks,64);
-    dimOutVec = NBlocks;
-    printf("Level0 : Nblocks=%d NThreads=%d\n",NBlocks,NThreadsPerBlock);
+      printf("Level0 : Nblocks=%d NThreads=%d\n",NBlocks,NThreadsPerBlock);
 
-    // Number of block grids
-    dim3 dimGrid1(NBlocks);
-    // Dimension of each block
-    dim3 dimBlock1(NThreadsPerBlock);
+      // Number of block grids
+      dim3 dimGrid(NBlocks);
+      // Dimension of each block
+      dim3 dimBlock(NThreadsPerBlock);
 
-    // Create device vectors
-    Vout1 = AllocateZeroVector(dimOutVec);
-    Vout1_d     = AllocateDeviceVector(Vout1);
+      // Create device vectors
+      Vinp_d     = AllocateDeviceVector(V, LenVec);
+      Vout_d     = AllocateDeviceVector(Vout);
 
-    vectorReduction<<<dimGrid1, dimBlock1, NBdim>>>(Vout_d, Vout1_d);
+      // Copy data to device vector
+      CopyToDeviceVector(Vinp_d, V, (idxParts - 1)*LenVec, (idxParts)*LenVec);
 
-    // Copy data from device
-    CopyFromDeviceVector(Vout1, Vout1_d);
+      vectorReduction<<<dimGrid, dimBlock, NBdim>>>(Vinp_d, Vout_d);
 
-    sum = Vout1.elements[0];
+
+      //--------------------------------------------------------
+      // Second level 1
+      //--------------------------------------------------------
+
+      dimVec            = Vout_d.length;
+      int NBdim1        = 1;
+      NBlocks           = 1;
+//    NThreadsPerBlock  = dimVec/NBlocks;
+      NThreadsPerBlock  = std::min(dimVec/NBlocks,64);
+      dimOutVec = NBlocks;
+      printf("Level0 : Nblocks=%d NThreads=%d\n",NBlocks,NThreadsPerBlock);
+
+      // Number of block grids
+      dim3 dimGrid1(NBlocks);
+      // Dimension of each block
+      dim3 dimBlock1(NThreadsPerBlock);
+
+      // Create device vectors
+      Vout1 = AllocateZeroVector(dimOutVec);
+      Vout1_d     = AllocateDeviceVector(Vout1);
+
+      vectorReduction<<<dimGrid1, dimBlock1, NBdim>>>(Vout_d, Vout1_d);
+
+      // Copy data from device
+      CopyFromDeviceVector(Vout1, Vout1_d);
+
+      sum += Vout1.elements[0];
+      printf("i=%d sum=%5d\n",i,sum);
+    }
 
     // print results
     printf("parallel Sum=%5.1f\n",sum);
