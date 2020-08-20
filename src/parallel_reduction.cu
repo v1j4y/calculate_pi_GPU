@@ -104,7 +104,7 @@ int parallel_reduction(void)
     Vector Vinp1_d, Vout1_d;
     sum = 0;
 
-    int dimVec  = LenVec;
+    int dimVec  = LenVec * 2;
     int dimOutVec = dimVec/NBdim;
 
     // Create device vectors
